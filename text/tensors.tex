@@ -1,0 +1,54 @@
+\section{The higher-order SVD and higher-order spectral estimators}
+\label{sec:tensor}
+
+Many tensor data sets have approximately low \emph{multilinear rank}, which we now define. Recall that the rank of a matrix is the dimension of the vector space spanned by its columns and rows. Define the $k$-mode vectors of a tensor $\mathcal{X} \in \mathbb{R}^{p_1\times\cdots\times p_K}$ as the $p_k$-dimensional vectors formed from $\mathcal{X}$ by varying $i_k$ and keeping the other indices fixed. The $k$-mode rank $r_k$ is the dimension of the span of the $k$-mode vectors, and the multilinear rank of the $K$-order tensor $\mathcal{X}$ is the the $K$-tuple, $(r_1,\ldots,r_K)$. Define the $k$-mode matricization \citep{kolda2009tensor}, or $k$-mode unfolding, of $\mathcal{X}$ to be $\mathcal{X}_{(k)}\in \mathbb{R}^{p_k \times p/p_k}$ (with $p = \prod_{k=1}^Kp_k$) where element $(i_1,\ldots,i_K)$ in $\mathcal{X}$ maps to element $(i_k,j)$ in $\mathcal{X}_{(k)}$ where
+\begin{align*}
+j = 1 + \sum_{\substack{n = 1 \\ n\neq k}}^{K}(i_n - 1)J_n \text{ with } J_n = \prod_{\substack{ m = 1 \\ m \neq k}}^{n-1}p_m.
+\end{align*}
+Then, equivalently, $r_k$ is the rank of $\mathcal{X}_{(k)}$.
+
+The SVD , presented in Section \ref{sec:intro}, has been used to shrink matrix valued data towards low rank. One generalization of the SVD to tensors is the HOSVD of \cite{de2000multilinear}, which relates directly to multilinear rank.
+
+\begin{definition}[HOSVD of \cite{de2000multilinear}]
+  Let $\mathcal{X}_{(k)} = U_kD_kV_k^T$ be the SVD of each $k$-mode unfolding of $\mathcal{X}$. Let $\mathcal{S} = (U_1^T,\ldots,U_K^T)\cdot\mathcal{X}$, then
+  \begin{align}
+    \label{equation:hosvd}
+    \mathcal{X} = (U_1,\ldots,U_K)\cdot \mathcal{S}
+  \end{align}
+is the higher-order singular value decomposition (HOSVD).
+\end{definition}
+The product ``$\cdot$'' in (\ref{equation:hosvd}) between a list of matrices, $\{U_1,\ldots,U_K\}$ for $U_k \in \mathbb{R}^{p_k \times p_k}$, and a tensor, $\mathcal{S} \in \mathbb{R}^{p_1\times\cdots\times p_K}$ is called the \emph{Tucker product}. The Tucker product is defined through the $k$-mode matricizations of $(U_1,\ldots,U_K)\cdot \mathcal{S}$:
+\begin{align*}
+  \begin{split}
+    &\mathcal{X} = (U_1,\ldots,U_K)\cdot \mathcal{S}\\
+    &\Leftrightarrow \mathcal{X}_{(k)} = U_k\mathcal{S}_{(k)}(U_K^T\otimes\cdots\otimes U_{k+1}^T\otimes U_{k-1}^T\otimes\cdots\otimes U_1^T) = U_k\mathcal{S}_{(k)}U_{-k}^T,
+  \end{split}
+\end{align*}
+where ``$\otimes$'' is the Kronecker product.
+The ``core array'', $\mathcal{S}$ has the property of \emph{all-orthogonality} where
+\begin{align*}
+  \mathcal{S}_{(k)}\mathcal{S}_{(k)}^T = D_k^2 \text{ for all } k = 1,\ldots,K.
+\end{align*}
+
+The HOSVD is multilinear rank-revealing in the same way the SVD is rank-revealing. That is, let $D_k = (\mathcal{S}_{(k)}\mathcal{S}_{(k)}^T)^{1/2} = \diag(\sigma_1^k,\ldots,\sigma_{p_k}^k)$ be the mode specific singular values of $\mathcal{X}$. Then the multilinear rank of $\mathcal{X}$ is $(r_1,\ldots,r_K)$ if $D_k$ contains $r_k$ non-zero mode-specific singular values. In the core array, this is equivalent to $\mathcal{S}$ containing zeros everywhere except in one of the ``corners'': $\mathcal{S}_{[1:r_1,\ldots,1:r_K]}$, where $1:r_k = 1,\ldots,r_k$. It is possible, then, to shrink $\mathcal{S}$ towards having (approximately) low multilinear rank by shrinking the elements in $\mathcal{S}$ towards $0$. We propose doing this via a re-parameterization of $\mathcal{S}$, given as follows:
+\begin{align}
+\label{equation:hosvd.rewrite}
+  \begin{split}
+    \mathcal{X} = (U_1,\ldots,U_K) \cdot (D_1,\ldots,D_K)\cdot (D_1^{-1},\ldots,D_K^{-1})\cdot \mathcal{S}\\
+    = (U_1,\ldots,U_K) \cdot (D_1,\ldots,D_K)\cdot \mathcal{V},
+  \end{split}
+\end{align}
+where $\mathcal{S} =  (D_1,\ldots,D_K)\cdot \mathcal{V}$. Our higher-order spectral estimators shrink $\mathcal{S}$ by shrinking each mode-specific $D_k$. We abuse notation a little by allowing ``$\cdot$'' to also represent a binary operator between two lists of matrices whose operation is component-wise multiplication. This should not cause confusion because $(A_1B_1,\ldots,A_KB_K) \cdot \mathcal{C} = (A_1,\ldots,A_K) \cdot [(B_1,\ldots,B_K) \cdot \mathcal{C}]$. 
+
+Using reparameterization (\ref{equation:hosvd.rewrite}), we now define higher-order spectral estimators of $\Theta$ under the model (\ref{equation:normal.model}).
+\begin{definition}
+  Let $\mathcal{X} = (U_1,\ldots,U_K) \cdot (D_1,\ldots,D_K)\cdot \mathcal{V}$ as in (\ref{equation:hosvd.rewrite}) with $D_k = \diag(\sigma_1^k,\ldots,\sigma_{p_k}^k)$. An estimator $t(\mathcal{X})$ of the form
+  \begin{align}
+    \label{equation:ho.spect.est}
+    t(\mathcal{X}) = (U_1,\ldots,U_K) \cdot (f^1(D_1),\ldots,f^K(D_K))\cdot \mathcal{V},
+  \end{align}
+where $f^k(D_k) = \diag(f_1^k(\sigma_1^k),\ldots,f_{p_k}^k(\sigma_{p_k}^k))$, is called a \emph{higher-order spectral estimator}.
+\end{definition}
+
+Each of the matrix shrinkage functions listed in Section \ref{sec:intro} (\ref{equation:eckart.young})-(\ref{equation:josse.sardy.est}) may, in principle, be applied to each mode in our higher-order spectral estimator (\ref{equation:ho.spect.est}). We focus on two examples of higher-order spectral estimators. One of these is a generalization of the matrix truncation estimator (\ref{equation:eckart.young}) and the other is a generalization of the  matrix soft-thresholding estimator (\ref{equation:soft.thresholding}). The former can be used to choose the multilinear rank of $\Theta$, the latter is for estimation of $\Theta$ when we suspect that the mean tensor has approximately low multilinear rank.
+

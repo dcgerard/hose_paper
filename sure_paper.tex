@@ -1,0 +1,51 @@
+\documentclass[11pt,authoryear]{article}
+\pdfoutput = 1
+\usepackage{fullpage,amsthm,amsmath,natbib,algorithm,algorithmic,enumitem,afterpage,amssymb,setspace,graphicx,amsfonts,array,verbatim}
+\usepackage[hang,flushmargin]{footmisc}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[colorlinks=TRUE,citecolor=blue,linkcolor=BrickRed]{hyperref}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\veco}{vec}
+\DeclareMathOperator*{\cov}{cov}
+\DeclareMathOperator*{\tr}{tr}
+\DeclareMathOperator*{\diag}{diag}
+\DeclareMathOperator*{\diverge}{div}
+\DeclareMathOperator*{\sure}{SURE}
+\DeclareMathOperator*{\gsure}{GSURE}
+\DeclareMathOperator*{\mse}{MSE}
+\DeclareMathOperator*{\sumo}{Sum}
+\DeclareMathOperator*{\Bin}{Bin}
+\DeclareMathOperator*{\sign}{sign}
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{claim}{Claim}
+\newtheorem{definition}{Definition}
+\newtheorem{exmp}{Example}[section]
+\allowdisplaybreaks
+\renewcommand{\baselinestretch}{1.5}
+\bibliographystyle{plainnat}
+
+\begin{document}
+\singlespacing
+\title{Adaptive Higher-order Spectral Estimators}
+\author{David Gerard$^1$ and Peter Hoff$^{1,2}$ \\
+Departments of Statistics$^1$ and Biostatistics$^2$, \\
+ University of Washington, Seattle, WA, 98195, USA}
+\maketitle
+\let\thefootnote\relax\footnotetext{Email: gerard2@uw.edu,  pdhoff@uw.edu. This research was partially supported by NI-CHD grant R01HD067509.  }
+
+\input{./text/abstract}
+\input{./text/introduction}
+\input{./text/tensors}
+\input{./text/estimators}
+\input{./text/sure_formula}
+\input{./text/simulation}
+\input{./text/nba}
+\input{./text/discussion}
+\appendix
+\input{./text/appendix}
+
+\bibliography{sure_bib}
+\end{document}

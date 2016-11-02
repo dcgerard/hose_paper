@@ -1,0 +1,320 @@
+\section{Simplification of the divergence}
+\label{sec:simp.div}
+We will need the $(i_1,\ldots,i_K)$th element of $U^T \cdot df[\Delta^{\bf i}]$ in (\ref{equation:u.times.df}). There are three terms in (\ref{equation:u.times.df}). We will deal with them one by one. First, we will work with the first term of (\ref{equation:u.times.df}), $\sum_{k=1}^Kd\tilde{U}_k[\Delta^{\bf i}] \cdot f(D) \cdot \mathcal{V}$.
+Note that, for $\mathcal{A} = f(D)\cdot\mathcal{V}$, we have
+\begin{align*}
+&\left(d\tilde{U}_k[\Delta^{\bf i}] \cdot \mathcal{A}\right)_{[\mathbf{i}]} = \left((I_{p_1},\ldots,I_{p_{k-1}},\Omega_{U_k}[\Delta^{\bf i}],I_{p_{k+1}},\ldots,I_{p_K})\cdot \mathcal{A}\right)_{[\mathbf{i}]}\\
+&= -\sum_{j=1, j\neq i_k}^{p_k}\mathcal{S}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}\mathcal{A}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}/[(\sigma_{i_k}^k)^2 - (\sigma_j^k)^2]\\
+&= -\sum_{j=1, j\neq i_k}^{p_k}\left(\prod_{\ell=1,\ell \neq k}^Kf_{i_{\ell}}^{\ell}(\sigma_{i_{\ell}}^{\ell})\right)f_j^k(\sigma_j^k)\mathcal{S}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}\mathcal{V}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}/[(\sigma_{i_k}^k)^2 - (\sigma_j^k)^2]\\
+&= -\left(\prod_{\ell=1,\ell \neq k}^Kf_{i_{\ell}}^{\ell}(\sigma_{i_{\ell}}^{\ell})\right)\sum_{j=1, j\neq i_k}^{p_k}f_j^k(\sigma_j^k)\mathcal{S}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}\mathcal{V}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}/[(\sigma_{i_k}^k)^2 - (\sigma_j^k)^2].
+\end{align*}
+
+Now we work with the second term of (\ref{equation:u.times.df}),
+$\sum_{k=1}^K df(\tilde{D})_k[\Delta^{\bf i}] \cdot \mathcal{V}$.
+We have that:
+\begin{align}
+\left(df(\tilde{D})_k[\Delta^{\bf i}] \cdot
+  \mathcal{V}\right)_{[\mathbf{i}]} &= \left(\prod_{j\neq
+    k}f_{i_j}^j(\sigma_{i_j}^j)\right)d(f_{i_k}^k \circ
+\sigma_{i_k}^k)[\Delta^{\bf i}]\mathcal{V}_{[\mathbf{i}]} \label{equation:simp.diff.first}\\
+&= \left(\prod_{j\neq k}f_{i_j}^j(\sigma_{i_j}^j)\right)\left(\frac{d}{d\sigma_{i_k}^k}f_{i_k}^k(\sigma_{i_k}^k)\right)\mathcal{V}_{[\mathbf{i}]}\mathcal{S}_{[\mathbf{i}]}/\sigma_{i_k}^k\nonumber\\
+&= \left(\prod_{j\neq k}f_{i_j}^j(\sigma_{i_j}^j)/\sigma_{i_j}^j\right)\left(\frac{d}{d\sigma_{i_k}^k}f_{i_k}^k(\sigma_{i_k}^k)\right)\mathcal{S}_{[\mathbf{i}]}^2/(\sigma_{i_k}^k)^2, \label{equation:final.form.second.term}
+\end{align}
+since $\mathcal{V}_{[\mathbf{i}]} = \left(\prod_{k=1}^K\sigma_{i_k}^k\right)^{-1}\mathcal{S}_{[\mathbf{i}]}$. 
+
+It remains to work with the third term in (\ref{equation:u.times.df}),
+$f(D) \cdot d\mathcal{V}[\Delta^{\bf i}]$.
+We have:
+\begin{align}
+\left(f(D) \cdot d\mathcal{V}[\Delta^{\bf i}]\right)_{[\mathbf{i}]} = \left(\prod_{k=1}^Kf_{i_k}^k(\sigma_{i_k}^k)\right) d\mathcal{V}[\Delta^{\bf i}]_{[\mathbf{i}]}. \label{eqaution:element.of.f.dv}
+\end{align}
+We now need to obtain $d\mathcal{V}[\Delta^{\bf i}]_{[\mathbf{i}]}$. From (\ref{equation:d.V}), we have
+\begin{align}
+d\mathcal{V}[\Delta^{\bf i}] &= D^{-1} \cdot U^T \cdot \Delta^{\bf i} - \sum_{k=1}^K dF_k[\Delta^{\bf i}]\cdot \mathcal{V} - \sum_{k=1}^K dG_k[\Delta^{\bf i}] \cdot \mathcal{V},\nonumber\\
+&= D^{-1} \cdot E^{\bf i} - \sum_{k=1}^K dF_k[\Delta^{\bf i}]\cdot \mathcal{V} - \sum_{k=1}^K dG_k[\Delta^{\bf i}] \cdot \mathcal{V}.\label{equation:expand.d.v}
+\end{align}
+There are three terms in (\ref{equation:expand.d.v}). Let us deal with them one by one. The first term in (\ref{equation:expand.d.v}) is
+\begin{align}
+\left(D^{-1} \cdot E^{\bf i}\right)_{[\mathbf{i}]} = \left(\prod_{k=1}^K\sigma_{i_k}^k\right)^{-1}.\label{equation:dv.1}
+\end{align}
+The second term in (\ref{equation:expand.d.v}) is
+\begin{align}
+&\left( dF_k[\Delta^{\bf i}]\cdot \mathcal{V}\right)_{[\mathbf{i}]} \nonumber\\
+&= \left((I_{p_1},\ldots,I_{p_{k-1}},D_k^{-1}\Omega_{U_k}[\Delta^{\bf i}]D_k,I_{p_{k+1}},\ldots,I_{p_K})\cdot \mathcal{V}\right)_{[\mathbf{i}]}\nonumber\\
+&= \sum_{j=1}^{p_k}\left(D_k^{-1}\Omega_{U_k}[\Delta^{\bf i}]D_k\right)_{[i_k,j]} \mathcal{V}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}\nonumber\\
+&= -\sum_{j=1, j\neq i_k}^{p_k}\frac{\sigma_j^k}{\sigma_{i_k}^k}S_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}\mathcal{V}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}/[(\sigma_{i_k}^k)^2 - (\sigma_j^k)^2]\nonumber\\
+&= -\sum_{j=1, j\neq i_k}^{p_k}\frac{\sigma_j^k}{\sigma_{i_k}^k}S_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}\mathcal{V}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}/[(\sigma_{i_k}^k)^2 - (\sigma_j^k)^2]. \label{equation:dv.2}
+\end{align}
+The third term in (\ref{equation:expand.d.v}) is
+\begin{align}
+\left(dG_k[\Delta^{\bf i}] \cdot \mathcal{V}\right)_{[\mathbf{i}]} &= \left(\mathcal{V} \times_k D_k^{-1}dD_k[\Delta^{\bf i}]\right)_{[\mathbf{i}]}\nonumber\\
+&= d\sigma_{i_k}^k[\Delta] \mathcal{V}_{[\mathbf{i}]}/\sigma_{i_k}^k\nonumber\\
+&= \mathcal{S}_{[\mathbf{i}]}\mathcal{V}_{[\mathbf{i}]}/(\sigma_{i_k}^k)^2.\label{equation:dv.3}
+\end{align}
+To obtain the third term in (\ref{equation:u.times.df}), we need only plug in (\ref{equation:dv.1}), (\ref{equation:dv.2}), and (\ref{equation:dv.3}) into (\ref{equation:expand.d.v}). And then we need to plug in (\ref{equation:expand.d.v}) into (\ref{eqaution:element.of.f.dv}).
+
+We will now show that the divergence is of the form:
+\begin{align}
+&\sum_{i_1,\ldots,i_K} \left[\mathcal{C}_{[\mathbf{i}]}\prod_{k=1}^Kf_{i_k}^k(\sigma_{i_k}^k)/\sigma_{i_k}^k + \sum_{k=1}^K \left(\prod_{j\neq k}f_{i_j}^j(\sigma_{i_j}^j)/\sigma_{i_j}^j\right)\left(\frac{d}{d\sigma_{i_k}^k}f_{i_k}^k(\sigma_{i_k}^k)\right)\mathcal{S}_{[i_1,\ldots,i_k]}^2/(\sigma_{i_k}^k)^2\right]\nonumber\\
+&= \sumo\left(f(D) \cdot D^{-1}\cdot \mathcal{C} + \sum_{k=1}^KH_k \cdot \mathcal{S}^2\right), \nonumber
+\end{align}
+for $H_k$ in (\ref{equation:H.k}) and $\mathcal{C} \in \mathbb{R}^{p_1\times\cdots\times p_K}$ in (\ref{equation:C.array}). The term $f(D) \cdot D^{-1}\cdot \mathcal{C}$ is from the first and second parts of (\ref{equation:u.times.df}), whereas the terms $\sum_{k=1}^KH_k \cdot \mathcal{S}^2$ are from the second part of (\ref{equation:u.times.df}) and were already derived in (\ref{equation:final.form.second.term}). Let us find $\mathcal{C}$.
+Let $\mathbf{f}_{i_1,\ldots,i_k} = \mathbf{f}_{\mathbf{i}} =  \prod_{k=1}^Kf_{i_k}^k(\sigma_{i_k}^k)$. Ignoring the second term in (\ref{equation:u.times.df}), we have that the sum of the first and third terms in (\ref{equation:u.times.df}) is equal to:
+\begin{align*}
+\begin{split}
+&\sum_{\bf i} \left\{ -\sum_{k=1}^K  \sum_{m=1,m\neq i_k}^{p_k} \mathbf{f}_{i_1,\ldots,i_{k-1},m,i_{k+1},\ldots,i_K}\frac{\mathcal{S}_{[i_1,\ldots,i_{k-1},m,i_{k+1},\ldots,i_K]}\mathcal{V}_{[i_1,\ldots,i_{k-1},m,i_{k+1},\ldots,i_K]}}{(\sigma_{i_k}^k)^2 - (\sigma_{m}^k)^2} \right.\\
+&\left. +\ \mathbf{f}_{\bf i}\left[ \left(\prod_{k=1}^K \sigma_{i_k}^k\right)^{-1} + \sum_{k=1}^K \sum_{j = 1, j\neq i_k}^{p_k} \frac{\sigma_j^k}{\sigma_{i_k}^k} \frac{\mathcal{S}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}\mathcal{V}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}}{(\sigma_{i_k}^k)^2 - (\sigma_{j}^k)^2}\right.\right.\\
+&\left.\left.- \mathcal{S}_{\bf [i]} \mathcal{V}_{\bf [i]}\sum_{k=1}^K \frac{1}{(\sigma_{i_k}^k)^2}\right]\right\}.
+\end{split}
+\end{align*}
+After rearranging summands, we obtain:
+\begin{align*}
+\begin{split}
+&\sum_{\bf i} \mathbf{f}_{\bf i}\left[ \left(\prod_{k=1}^K \sigma_{i_k}^k\right)^{-1} + \sum_{k=1}^K \sum_{j = 1, j\neq i_k}^{p_k} \frac{\sigma_j^k}{\sigma_{i_k}^k} \frac{\mathcal{S}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}\mathcal{V}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}}{(\sigma_{i_k}^k)^2 - (\sigma_{j}^k)^2} \right.\\
+&\left. - \mathcal{S}_{\bf [i]} \mathcal{V}_{\bf [i]}\sum_{k=1}^K\left( \frac{1}{(\sigma_{i_k}^k)^2} + \sum_{m=1,m\neq i_k}^{p_k}\frac{1}{(\sigma_m^k)^2 - (\sigma_{i_k}^k)^2}  \right)\right].
+\end{split}
+\end{align*}
+And after factoring out $\prod_{k=1}^K(\sigma_{i_k}^k)^{-1}$, we get:
+\begin{align*}
+\begin{split}
+&\sum_{\bf i} \mathbf{f}_{\bf i}\left(\prod_{k=1}^K \sigma_{i_k}^k\right)^{-1}\left[ 1 + \sum_{k=1}^K \sum_{j = 1, j\neq i_k}^{p_k} \frac{\mathcal{S}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}^2}{(\sigma_{i_k}^k)^2 - (\sigma_{j}^k)^2} \right.\\
+&\left.-\mathcal{S}_{\bf [i]}^2\sum_{k=1}^K\left( \frac{1}{(\sigma_{i_k}^k)^2} + \sum_{m=1,m\neq i_k}^{p_k}\frac{1}{(\sigma_m^k)^2 - (\sigma_{i_k}^k)^2}  \right)\right].
+\end{split}
+\end{align*}
+That is,
+\begin{align}
+\label{equation:better.c}
+\mathcal{C}_{[{\bf i}]} =  1 + \sum_{k=1}^K \sum_{j = 1, j\neq i_k}^{p_k} \frac{\mathcal{S}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}^2}{(\sigma_{i_k}^k)^2 - (\sigma_{j}^k)^2} - \mathcal{S}_{\bf [i]}^2\sum_{k=1}^K\left( \frac{1}{(\sigma_{i_k}^k)^2} + \sum_{m=1,m\neq i_k}^{p_k}\frac{1}{(\sigma_m^k)^2 - (\sigma_{i_k}^k)^2}  \right).
+\end{align}
+
+\section{Newton step for optimization}
+Let $f_{\mathbf{i}} = \prod_{k=1}^Kf_{i_k}^k(\sigma_{i_k}^k)$ and $\tilde{\sigma}_{\mathbf{i}} = \prod_{k=1}^K\sigma_{i_k}^k$. The SURE is equal to:
+\begin{align}
+&||f(D) \cdot D ^{-1} \cdot \mathcal{S} - \mathcal{S}||^2 + 2\tau^2 \sum_{\mathbf{i}} \left[\left(f(D) \cdot D^{-1} \cdot \mathcal{C}\right)_{[\mathbf{i}]} + \sum_{k=1}^K \left(H_k \cdot \mathcal{S}^2\right)_{[\mathbf{i}]}\right] - p \tau^2\\
+& = \sum_{\mathbf{i}}\left[\left(f_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]} - \mathcal{S}_{[\mathbf{i}]}\right)^2 + 2\tau^2f_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]} + 2\tau^2f_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{k=1}^K\frac{\frac{d}{d\sigma_{i_k}^k}f_{i_k}^k(\sigma_{i_k}^k)}{\sigma_{i_k}^kf_{i_k}^k(\sigma_{i_k}^k)}\right] - p\tau^2. \label{equation:sum.sure}
+\end{align}
+Considering only the mode-specific soft-thresholding estimator, we need to calculate the gradient given $\mathbf{i}$. One can show that if any $\lambda_k \geq \sigma_{i_k}^k$, then its contribution to the gradient is zero. Hence, given $\mathbf{i}$, assume that all $\lambda_k < \sigma_{i_k}^k$ for $k = 1,\ldots,K$. Then $(\sigma_{i_k}^k - \lambda_k)_+ = \sigma_{i_k}^k - \lambda_k$ and $\frac{d}{d\sigma_{i_k}^k}f_{i_k}^k(\sigma_{i_k}^k) = 1$. We have
+\begin{align}
+&\frac{d}{d\lambda_k}\left[\left(cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]} - \mathcal{S}_{[\mathbf{i}]}\right)^2 + 2\tau^2cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]} + 2\tau^2cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{k=1}^K\frac{1}{\sigma_{i_k}^kf_{i_k}^k(\sigma_{i_k}^k)}\right]\nonumber\\
+&=\frac{d}{d\lambda_k}\left[c^2f_{\mathbf{i}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 - 2 cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 + 2\tau^2cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]} + 2\tau^2cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{k=1}^K\frac{1}{\sigma_{i_k}^kf_{i_k}^k(\sigma_{i_k}^k)}\right]\nonumber\\
+&= -2c^2(\sigma_{i_k}^k - \lambda_k)f_{\mathbf{i}_{-k}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 + 2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 - 2\tau^2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]} - 2\tau^2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{j=1,j\neq k}^K\frac{1}{\sigma_{i_j}^jf_{i_j}^j(\sigma_{i_j}^j)}\nonumber\\
+\begin{split}
+&= -2c^2\sigma_{i_k}^kf_{\mathbf{i}_{-k}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 + \lambda_k2c^2f_{\mathbf{i}_{-k}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 + 2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 - 2\tau^2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]}\\
+&- 2\tau^2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{j=1,j\neq k}^K\frac{1}{\sigma_{i_j}^jf_{i_j}^j(\sigma_{i_j}^j)},\label{equation:long.deriv}
+\end{split}
+\end{align}
+where $f_{\mathbf{i}_{-k}} = \prod_{j=1,j\neq k}^Kf_{i_j}^j(\sigma_{i_j}^j)$. Let
+\begin{align*}
+a &= \sum_{\mathbf{i}} 2c^2\sigma_{i_k}^kf_{\mathbf{i}_{-k}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2,\\
+b &= \sum_{\mathbf{i}} 2c^2f_{\mathbf{i}_{-k}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2,\\
+d &= \sum_{\mathbf{i}} 2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2,\\
+e &= 2\tau^2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]}, \text{ and}\\
+h &= 2\tau^2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{j=1,j\neq k}^K\frac{1}{\sigma_{i_j}^jf_{i_j}^j(\sigma_{i_j}^j)},
+\end{align*}
+where we are summing over the set of $i_{k}$'s such that $\sigma_{i_k}^k > \lambda_k$ for $k = 1,\ldots,K$. Then the gradient (\ref{equation:long.deriv}) is equal to
+\begin{align*}
+&-a + \lambda_k b + d - e - h.
+\end{align*}
+We now have a Newton step for a gradient descent algorithm:
+\begin{align*}
+\lambda_k^{NEW} &= \lambda_k - (-a + \lambda_k b + d - e - h) / b\\
+&= \lambda_k  - \lambda_k  + (a - d + e + h) / b\\
+&= (a - d + e + h) / b
+\end{align*}
+
+To update $c$, we have
+\begin{align*}
+&\frac{d}{dc}\left[c^2f_{\mathbf{i}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 - 2 cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 + 2\tau^2cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]} + 2\tau^2cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{k=1}^K\frac{1}{\sigma_{i_k}^kf_{i_k}^k(\sigma_{i_k}^k)}\right]\\
+&=2cf_{\mathbf{i}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 - 2f_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 + 2\tau^2f_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]} + 2\tau^2f_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{k=1}^K\frac{1}{\sigma_{i_k}^kf_{i_k}^k(\sigma_{i_k}^k)}.
+\end{align*}
+Let
+\begin{align*}
+a &= \sum_{\mathbf{i}}f_{\mathbf{i}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2,\\
+b &= \sum_{\mathbf{i}}f_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2,\\
+d &= \sum_{\mathbf{i}}\tau^2f_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]}, \text{ and}\\
+e &= \sum_{\mathbf{i}}\tau^2f_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{k=1}^K\frac{1}{\sigma_{i_k}^kf_{i_k}^k(\sigma_{i_k}^k)},
+\end{align*}
+where we are summing over the set of $i_k$'s such that $\sigma_{i_k}^k
+> \lambda_k$ for $k = 1,\ldots,K$. Then the minimum $c$ occurs at $(b
+- d - e)/a$. This is a global minimizer, conditional on the $\lambda_k$'s, since $a > 0$.
+
+
+%\section{Supplementary Material}
+\section{General spectral functions}
+\label{sec:gen.spec.func}
+In Section \ref{subsection:diff}, we assumed that the spectral functions were of
+the form:
+\begin{align*}
+f^k(D_k) = \diag(f_1^k(\sigma_1^k),\ldots,f_{p_k}^k(\sigma_{p_k}^k)).
+\end{align*}
+That is, we only used $\sigma_i^k$ when determining the amount of shrinkage to perform on $\sigma_i^k$. In this section, we will extend these results to weakly differentiable
+functions of the form:
+\begin{align*}
+f^k: \mathcal{D}_{p_k}^+ \rightarrow \mathcal{D}_{p_k}^+,
+\end{align*}
+where $\mathcal{D}_{p_k}^+$ is the space of $p_k$ by $p_k$ diagonal
+matrices with non-negative diagonal elements. This will allow us to use $\sigma_1^k,\ldots,\sigma_{p_k}^k$ to determine the amount of shrinkage to perform on $\sigma_i^k$. These types of spectral functions might be desirable if, for example, we wished to develop a generalization of estimator (\ref{equation:improved.em}). Let $\mathbf{s}_k =
+(\sigma_1^k,\ldots,\sigma_{p_k}^k)^T$ be the vector of the $k$th mode
+specific singular values. We look at functions
+\begin{align*}
+g^k: \mathbb{R}^{p_k+} \rightarrow \mathbb{R}^{p_k+},
+\end{align*}
+where $\mathbb{R}^{p_k+}$ is the space of $p_k$ vectors with
+non-negative elements. Then
+\begin{align*}
+f^k(D_k) = \diag(g^k(\mathbf{s}_k))
+\end{align*}
+
+The derivation of the SURE is the same as in Section \ref{subsection:diff} except for the second
+term in (\ref{equation:u.times.df}):
+\begin{align*}
+\sum_{k=1}^K df(\tilde{D})_k[\Delta^{\bf i}] \cdot \mathcal{V}.
+\end{align*}
+ We have:
+\begin{align}
+\left(df(\tilde{D})_k[\Delta^{\bf i}] \cdot
+  \mathcal{V}\right)_{[\mathbf{i}]} &= \left(\prod_{j\neq
+    k}f_{i_j}^j(\sigma_{i_j}^j)\right)d(f^k \circ D_k)[\Delta^{\bf
+  i}]_{[i_k,i_k]}\mathcal{V}_{[\mathbf{i}]}\nonumber\\
+&= \left(\prod_{j\neq k}f_{i_j}^j(\sigma_{i_j}^j)\right)d(g^k \circ \mathbf{s}_k)[\Delta^{\bf i}]_{[i_k]}\mathcal{V}_{[\mathbf{i}]} \label{equation:g.circ.s}
+\end{align}
+
+By the chain rule:
+\begin{align*}
+d(g^k \circ \mathbf{s}_k)[\Delta^{\bf i}] = J_{g^k}(\mathbf{s}_k) d\mathbf{s}_k[\Delta],
+\end{align*}
+where $J_{g^k}(\mathbf{s}_k)$ is the Jacobian matrix of $g_k$
+evaluated at $\mathbf{s}_k$. We know from (\ref{equation:d.comp}) that
+\begin{align*}
+d\mathbf{s}_{k}[\Delta^{\bf i}]_{[j]} = 1(j = i_k)S_{[{\bf i}]}
+/ \sigma_j^k \text{ for } j = 1,\ldots,p_k.
+\end{align*}
+So $d\mathbf{s}_k[\Delta^{\bf i}]$ contains zeros except in the $i_k$th position. Hence
+\begin{align*}
+(J_{g^k}(\mathbf{s}_k) d\mathbf{s}_k[\Delta])_{[j]} = J_{g^k}(\mathbf{s}_k)_{[j,i_k]}S_{[{\bf i}]}
+/ \sigma_{i_k}^k \text{ for } j = 1,\ldots,p_k
+\end{align*}
+And so
+\begin{align}
+d(g^k \circ \mathbf{s}_k)[\Delta^{\bf i}]_{[i_k]} &=
+(J_{g^k}(\mathbf{s}_k) d\mathbf{s}_k[\Delta])_{[i_k]}\nonumber\\
+&= J_{g^k}(\mathbf{s}_k)_{[i_k,i_k]}S_{[{\bf i}]}/\sigma_{i_k}^k. \label{equation:jacob.single.element}
+\end{align}
+Inserting (\ref{equation:jacob.single.element}) into
+(\ref{equation:g.circ.s}), we get:
+\begin{align*}
+\left(df(\tilde{D})_k[\Delta^{\bf i}] \cdot
+  \mathcal{V}\right)_{[\mathbf{i}]} &= \left(\prod_{j\neq
+    k}f_{i_j}^j(\sigma_{i_j}^j)\right)
+J_{g^k}(\mathbf{s}_k)_{[i_k,i_k]}S_{[{\bf
+    i}]}/\sigma_{i_k}^k\mathcal{V}_{[{\bf i}]}.
+\end{align*}
+That is, we only need the $(i_k,i_k)$th element of the Jacobian matrix
+of the spectral function. Let
+\begin{align*}
+J^k(D_k) =
+\diag(J_{g^k}(\mathbf{s}_k)_{[1,1]},\ldots,J_{g^k}(\mathbf{s}_k)_{[p_k,p_k]})
+\text{ for } k=1,\ldots,K.
+\end{align*}
+Then
+\begin{align*}
+\sum_{k=1}^K df(\tilde{D})_k[\Delta^{\bf i}] \cdot \mathcal{V} = \sum_{k=1}^K Q_k \cdot \mathcal{S}^2
+\end{align*}
+where
+\begin{align*}
+Q_k = (f^1(D_1)D_1^{-1},\ldots,f^{k-1}(D_{k-1})D_{k-1}^{-1},J_k(D_k)D_{k}^{-2},f^{k+1}(D_{k+1})D_{k+1}^{-1},\ldots,f^K(D_K)D_{K}^{-1}).
+\end{align*}
+The divergence is now of the form:
+\begin{align*}
+\sumo\left(f(D) \cdot D^{-1}\cdot \mathcal{C} + \sum_{k=1}^KQ_k \cdot \mathcal{S}^2\right).
+\end{align*}
+
+\section{SURE for estimators that shrink elements in $\mathcal{S}$}
+\label{sec:sure.s.shrink}
+Consider the HOSVD (\ref{equation:hosvd}). In this section, we will find the SURE for estimators of the form:
+\begin{align}
+\label{equation:hose.s}
+t(\mathcal{X}) = U \cdot g(\mathcal{S}),
+\end{align}
+where
+\begin{align*}
+(g(\mathcal{S}))_{[\mathbf{i}]} = g_{\mathbf{i}}(\mathcal{S}_{[\mathbf{i}]}).
+\end{align*}
+That is, we shrink each element of $\mathcal{S}$ separately. An example of such a function is to soft-threshold each element of $\mathcal{S}$:
+\begin{align*}
+g_{\mathbf{i}}(\mathcal{S}_{[\mathbf{i}]}) = \sign(\mathcal{S}_{[\mathbf{i}]})(|\mathcal{S}_{[\mathbf{i}]}| - \lambda)_+,
+\end{align*}
+where $\sign(x)$ is $-1$ of $x < 0$, $1$ if $x > 0$, and $0$ if $x = 0$. Such a function induces $0$'s in the core array, which has applications to increasing interpretability of higher-order PCA \citep{henrion1993body,kiers1997uniqueness,murakami1998case,andersson1999general,de2001independent,martin2008jacobi}. Inducing $0$'s in the core array is usually performed by applying orthogonal rotations along each mode. Our approach provides an alternative mechanism to induce $0$'s in the core array.
+
+
+
+\begin{theorem}
+The differentials of $U_k$ and $\mathcal{S}$ are given in equations (\ref{equation:d.U}) and (\ref{equation:d.S}), respectively.
+\end{theorem}
+\begin{proof}
+We have already calculated $dU_k[\Delta]$ in Theorem \ref{theorem:diff}. To obtain $d\mathcal{S}[\Delta]$, we apply the chain rule to the HOSVD (\ref{equation:hosvd}) and solve for $d\mathcal{S}[\Delta]$.
+\begin{align*}
+\Delta = d\mathcal{X}[\Delta] &= d(U\cdot \mathcal{S})[\Delta] =\sum_{k=1}^Kd\underline{U}_k[\Delta] \cdot \mathcal{S} + U \cdot d\mathcal{S}[\Delta],
+\end{align*}
+where $d\underline{U}_k[\Delta]$ is defined in (\ref{equation:U.underline}). Hence,
+\begin{align}
+\label{equation:d.S}
+d\mathcal{S}[\Delta] =  U^T \cdot \Delta - \sum_{k=1}^K d\tilde{U}_k[\Delta]\cdot \mathcal{S} 
+\end{align}
+where $d\tilde{U}_k[\Delta]$ is defined in (\ref{equation:U.tilde}).
+\end{proof}
+
+The derivation of the divergence for functions of the form (\ref{equation:hose.s}) is very similar to that in Section \ref{subsection:div}. The divergence may still be found from (\ref{equation:divergence.index}). From the chain rule, we have:
+\begin{align*}
+dt[\Delta^{\bf i}] = \sum_{k=1}^Kd\underline{U}_k[\Delta^{\bf i}] \cdot g(\mathcal{S}) + U \cdot d(g \circ \mathcal{S})[\Delta^{\bf i}],
+\end{align*}
+where this ``$\circ$'' means composition and $d\underline{U}_k[\Delta^{\bf i}]$ is from (\ref{equation:U.underline}). Hence,
+\begin{align}
+\label{equation:u.times.df.S}
+U^T \cdot dt[\Delta^{\bf i}] = \sum_{k=1}^Kd\tilde{U}_k[\Delta^{\bf i}] \cdot g(\mathcal{S}) + d(g \circ \mathcal{S})[\Delta^{\bf i}],
+\end{align}
+where $d\tilde{U}_k[\Delta^{\bf i}]$ is from (\ref{equation:U.tilde}), noting that the relationship in (\ref{equation:d.omega.i}) still holds.
+
+From the chain rule we have:
+\begin{align*}
+d(f_{[\mathbf{i}]} \circ \mathcal{S}_{[\mathbf{i}]})[\Delta^{\bf i}]_{[\mathbf{i}]} = \left(\frac{d}{d\mathcal{S}_{[\mathbf{i}]}}f_{\mathbf{i}}(\mathcal{S}_{[\mathbf{i}]})\right) d\mathcal{S}_{[\mathbf{i}]}[\Delta^{\bf i}].
+\end{align*}
+
+We need the $(i_1,\ldots,i_K)$th element of 
+\begin{align}
+&\left(U^T \cdot df[\Delta^{\bf i}]\right)_{[\mathbf{i}]} \nonumber\\
+&= \left(\sum_{k=1}^Kd\tilde{U}_k[\Delta^{\bf i}] \cdot f(\mathcal{S}) + d(f \circ \mathcal{S})[\Delta^{\bf i}]\right)_{[\mathbf{i}]}\nonumber\\
+&= \sum_{k=1}^K\left(d\tilde{U}_k[\Delta^{\bf i}] \cdot f(\mathcal{S})\right)_{[\mathbf{i}]} + \left(\frac{d}{d\mathcal{S}_{[\mathbf{i}]}}f_{\mathbf{i}}(\mathcal{S}_{[\mathbf{i}]})\right) d\mathcal{S}_{[\mathbf{i}]}[\Delta^{\bf i}]\nonumber\\
+&= \sum_{k=1}^K\left(d\tilde{U}_k[\Delta^{\bf i}] \cdot f(\mathcal{S})\right)_{[\mathbf{i}]} + \left(\frac{d}{d\mathcal{S}_{[\mathbf{i}]}}f_{\mathbf{i}}(\mathcal{S}_{[\mathbf{i}]})\right) d\mathcal{S}[\Delta^{\bf i}]_{[\mathbf{i}]}\nonumber\\
+&= \sum_{k=1}^K\left(d\tilde{U}_k[\Delta^{\bf i}] \cdot f(\mathcal{S})\right)_{[\mathbf{i}]} + \left(\frac{d}{d\mathcal{S}_{[\mathbf{i}]}}f_{\mathbf{i}}(\mathcal{S}_{[\mathbf{i}]})\right) \left(\left(U^T \cdot \Delta^{\bf i}\right)_{[\mathbf{i}]} - \sum_{k=1}^K \left(d\tilde{U}_k[\Delta^{\bf i}]\cdot \mathcal{S}\right)_{[\mathbf{i}]} \right) \nonumber\\
+&= \sum_{k=1}^K\left(d\tilde{U}_k[\Delta^{\bf i}] \cdot f(\mathcal{S})\right)_{[\mathbf{i}]} + \left(\frac{d}{d\mathcal{S}_{[\mathbf{i}]}}f_{\mathbf{i}}(\mathcal{S}_{[\mathbf{i}]})\right) \left(E^{\bf i}_{[\mathbf{i}]} - \sum_{k=1}^K \left(d\tilde{U}_k[\Delta^{\bf i}]\cdot \mathcal{S}\right)_{[\mathbf{i}]} \right) \nonumber\\
+&= \sum_{k=1}^K\left(d\tilde{U}_k[\Delta^{\bf i}] \cdot f(\mathcal{S})\right)_{[\mathbf{i}]} + \left(\frac{d}{d\mathcal{S}_{[\mathbf{i}]}}f_{\mathbf{i}}(\mathcal{S}_{[\mathbf{i}]})\right) \left(1 - \sum_{k=1}^K \left(d\tilde{U}_k[\Delta^{\bf i}]\cdot \mathcal{S}\right)_{[\mathbf{i}]} \right).  \label{equation:final.of.right.simp}
+\end{align}
+
+
+Note that for any $\mathcal{A} \in \mathbb{R}^{p_1\times\cdots \times p_K}$
+\begin{align*}
+&\left(d\tilde{U}_k[\Delta^{\bf i}] \cdot \mathcal{A}\right)_{[\mathbf{i}]} = \left((I_{p_1},\ldots,I_{p_{k-1}},d\Omega_{U_k}[\Delta^{\bf i}],I_{p_{k+1}},\ldots,I_{p_K})\cdot \mathcal{A} \right)_{[\mathbf{i}]}\\
+&= -\sum_{j=1, j\neq i_k}^{p_k}\mathcal{S}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}\mathcal{A}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}/[(\sigma_{i_k}^k)^2 - (\sigma_j^k)^2].
+\end{align*}
+Hence, from (\ref{equation:final.of.right.simp}) we have,
+\begin{align}
+\diverge(g) &= \sum_{\bf i}\left[-\sum_{k=1}^K \sum_{j=1, j\neq i_k}^{p_k}\mathcal{S}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}f(\mathcal{S})_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}/[(\sigma_{i_k}^k)^2 - (\sigma_j^k)^2]\right.\nonumber\\
+ \nonumber&\left. + \left(\frac{d}{d\mathcal{S}_{[\mathbf{i}]}}f_{\mathbf{i}}(\mathcal{S}_{[\mathbf{i}]})\right) \left(1 + \sum_{k=1}^K \sum_{j=1, j\neq i_k}^{p_k}\mathcal{S}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}^2/[(\sigma_{i_k}^k)^2 - (\sigma_j^k)^2] \right)\right]  \\
+&= \sum_{\bf i}\left[-\sum_{k=1}^K \sum_{j=1, j\neq i_k}^{p_k}\frac{\mathcal{S}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}f_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}(\mathcal{S}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]})}{(\sigma_{i_k}^k)^2 - (\sigma_j^k)^2}\right. \label{div.formula1}\\
+\nonumber &\left. + \left(\frac{d}{d\mathcal{S}_{[\mathbf{i}]}}f_{\mathbf{i}}(\mathcal{S}_{[\mathbf{i}]})\right) \left(1 + \sum_{k=1}^K \sum_{j=1, j\neq i_k}^{p_k}\mathcal{S}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}^2/[(\sigma_{i_k}^k)^2 - (\sigma_j^k)^2] \right)\right].
+\end{align}
+
+We can rearrange the summations in the left part of
+(\ref{div.formula1}) by switching the order of the $j$ and the $i_k$
+and then altering the notation of the dummy variables to obtain:
+\begin{align*}
+\diverge(g) &= \sum_{\bf i}\left[\mathcal{S}_{[\mathbf{i}]}f_{\bf i}(\mathcal{S}_{[\mathbf{i}]})\sum_{k=1}^K \sum_{j=1, j\neq i_k}^{p_k}1/[(\sigma_{i_k}^k)^2 - (\sigma_j^k)^2]\right. \\
+ &\left. + \left(\frac{d}{d\mathcal{S}_{[\mathbf{i}]}}f_{\mathbf{i}}(\mathcal{S}_{[\mathbf{i}]})\right) \left(1 + \sum_{k=1}^K \sum_{j=1, j\neq i_k}^{p_k}\mathcal{S}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}^2/[(\sigma_{i_k}^k)^2 - (\sigma_j^k)^2] \right)\right].
+\end{align*}
+
+Hence, the SURE for these higher-order spectral functions (\ref{equation:hose.s}) is:
+\begin{align*}
+\sure(g(\mathcal{X})) &= -p\tau^2 + ||f(\mathcal{S}) - \mathcal{S}||^2 + 2\tau^2\sum_{\bf i}\left[\mathcal{S}_{[\mathbf{i}]}f_{\bf i}(\mathcal{S}_{[\mathbf{i}]})\sum_{k=1}^K \sum_{j=1, j\neq i_k}^{p_k}1/[(\sigma_{i_k}^k)^2 - (\sigma_j^k)^2]\right. \\
+&\left. + \left(\frac{d}{d\mathcal{S}_{[\mathbf{i}]}}f_{\mathbf{i}}(\mathcal{S}_{[\mathbf{i}]})\right) \left(1 + \sum_{k=1}^K \sum_{j=1, j\neq i_k}^{p_k}\mathcal{S}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}^2/[(\sigma_{i_k}^k)^2 - (\sigma_j^k)^2] \right)\right].
+\end{align*}

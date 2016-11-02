@@ -1,0 +1,120 @@
+\section{Simulation studies}
+\label{sec:simulation}
+
+ In this section, we consider four competitors to the mode-specific soft-thresholding estimator (\ref{equation:msst.est}) and the truncated HOSVD (\ref{equation:trunc.shrink}). We will compare these estimators assuming the error variance $\tau^2$ is one. The first competitor is $\mathcal{X}$, which is the maximum likelihood estimator and the uniformly minimum variance unbiased estimator. However, the risk-performance of this estimator is known to be dominated by our second competitor, the James-Stein estimator (\ref{equation:stein}) \citep{stein1981estimation}.
+This estimator may be derived from an empirical Bayes argument where
+$\Theta_{[\mathbf{i}]} \sim N(0,\gamma^2)$ \citep{efron1972limiting}. As such, it should perform
+well when the entries of $\Theta$
+are centered about $0$. For a matrix parameter $\Theta$, \cite{efron1972empirical} developed an empirical Bayes estimator that performs better than the James-Stein estimator when $\Theta$ exhibits empirical correlation along the rows. With this in mind, our third estimator is obtained by applying the Efron-Morris estimator (\ref{equation:efron.morris}) to the first mode matricization of the data tensor. However, the Efron-Morris estimator does not induce low rank estimates, and so our fourth and final competitor is the matrix soft-thresholding estimator
+(\ref{equation:soft.thresholding}) applied to the first mode matricization of $\mathcal{X}$, and whose tuning parameter is chosen
+with the SURE formula from \cite{candes2013unbiased}. This estimator should improve on the Efron-Morris estimator when $\Theta_{(1)}$ has approximately low rank.
+
+We now describe the design of the simulation study. We evaluated the risk of the mode-specific soft-thresholding, truncated HOSVD, maximum likelihood, James-Stein, Efron-Morris, and matrix soft-thresholding estimators under six different values of $\Theta \in \mathbb{R}^{10 \times 10 \times 10}$, constructed as follows:
+\begin{description}[noitemsep]
+\item[A.] $\veco(\Theta) \sim N_p(0,I_{1000})$.
+\item[B.] $\veco(\Theta) \sim N_p(0,I_{10} \otimes I_{10} \otimes F)$, where $F =
+  \diag(1^2,2^2,\ldots,10^2)$.
+\item[C.] $\veco(\Theta) \sim N_{1000}(0,I_{10}\otimes I_{10}\otimes \Sigma)$ where
+  $\Sigma \in \mathbb{R}^{10\times 10}$ has an AR-1 $(0.7)$ covariance structure. That is,
+  $\Sigma_{[i,j]} = 0.7^{|i - j|}$.
+\item[D.] $\Theta_{(1)} = U_{[:,1:5]}D_{[1:5,1:5]}V_{[:,1:5]}^T$ where
+    $UDV^T$ is the SVD of a $10 \times 100$ matrix that has standard
+    normal entries.
+\item[E.] $\veco(\Theta) \sim N_p(0,F \otimes F \otimes F)$, where $F =
+  \diag(1^2,2^2,\ldots,10^2)$.
+\item[F.] $\Theta$ is a rank $(5,5,5)$ tensor where all of the non-zero mode-specific
+  singular values are the same along all modes. 
+\end{description}
+%To get such a $\Theta$, we first drew $\veco(\mathcal{Y}) \sim N_{125}(0,I_{125})$ where $\mathcal{Y} \in \mathbb{R}^{5\times 5\times 5}$. We then found the ISVD of $Y = \ell(U_1,U_2,U_3)\cdot(D_1,D_2,D_3)\cdot\mathcal{V}$ from \cite{gerard2014higher}, which is different from (\ref{equation:hosvd.rewrite}). We then Set $\Theta = (\tilde{U}_1,\tilde{U}_2,\tilde{U}_{3})\cdot\mathcal{V}$, where $\tilde{U}_k$ was drawn uniformly from the Stiefel manifold of $10 \times 5$ matrices.
+For each scenario, we re-scaled $\Theta$ to have Frobenius norm
+$\sqrt{1000}$, so that $E[||\mathcal{E}||^2] = 1000 = ||\Theta||^2$. For
+each $\Theta$, we simulated $\mathcal{X}_{[\mathbf{i}]} \sim
+N(\Theta_{[\mathbf{i}]},1)$, calculated the six estimators given
+this data tensor, and calculated the squared error loss for each estimator. We repeated this process 500 times. Box plots of the losses for each of the six $\Theta$ values are given in Figure \ref{fig:sim.results}.
+
+The James-Stein estimator
+(\ref{equation:stein}) is expected to perform well in Scenario \textbf{A} as it can be viewed as an empirical Bayes procedure for the prior with which $\Theta$ was actually generated.
+% the mean was sampled under the
+%conditions that the empirical Bayes estimator was derived. 
+Indeed, from Figure \ref{fig:sim.results} (\textbf{A}), the
+James-Stein estimator does perform best, but the the mode-specific
+soft-thresholding estimator performs almost as well, even though there
+is no correlation along any of the modes of the mean tensor.
+
+For scenario \textbf{B}, we expect the matrix soft-thresholding
+estimator (\ref{equation:soft.thresholding}) to do well. Since the mean tensor in this scenario has approximately low rank only along the first mode,
+estimators that shrink towards the space of low multilinear rank tensors should be
+over-fitting and should not perform well. From Figure \ref{fig:sim.results} (\textbf{B}), the matrix
+soft-thresholding estimator does perform best, but the mode-specific
+soft-thresholding estimator does surprisingly well, and performs just
+below that of the matrix soft-thresholding estimator.
+
+For Scenario \textbf{C}, we expect the matrix soft-thresholding
+estimator (\ref{equation:soft.thresholding}) and the
+Efron-Morris estimator (\ref{equation:efron.morris}) to perform well. There is temporal correlation along one of the
+modes of the mean tensor. This scenario corresponds to the ideas behind forming
+the Casorati matrix --- we take into account the temporal correlation of the mean by
+performing soft-thresholding along this mode. However, from Figure \ref{fig:sim.results} (\textbf{C}), we see that the mode-specific soft-thresholding
+estimator performed best. 
+
+The matrix soft-thresholding estimator (\ref{equation:soft.thresholding}) was designed to do well when the mean matrix is of low rank. This is exactly the situation in Scenario \textbf{D}, as a tensor with low rank along one mode may be matricized to form a low rank matrix. However, from Figure \ref{fig:sim.results} (\textbf{D}), for our one $\Theta$ value, the mode-specific soft-thresholding estimator performs best.
+
+As for Scenario \textbf{E}, we expect the mode-specific
+soft-thresholding estimator (\ref{equation:msst.est}) to do well, as the mean tensor has
+approximately low multilinear rank, but it is not exactly low multilinear rank. Figure \ref{fig:sim.results} (\textbf{E}) reveals the the
+mode-specific soft-thresholding estimator does indeed perform better than the
+other estimators.
+
+We expect the truncated HOSVD (\ref{equation:trunc.shrink}) to do well in Scenario \textbf{F} because the
+mean tensor has low multilinear rank, and the truncated HOSVD is correctly
+shrinking toward this structure. From Figure \ref{fig:sim.results} (\textbf{F}), we
+see that the truncated HOSVD does indeed perform best in terms of
+loss. However, the
+mode-specific soft-thresholding estimator does not perform much
+worse. The estimators that do not take into account the tensor indexing
+perform about twice as bad as these tensor-specific estimators.
+
+ For scenarios \textbf{C} and \textbf{D}, we emphasize here that we
+are looking at the risk only at a few points in the parameter
+space. There are likely points where the matrix-soft thresholding
+estimator performs better than the tensor estimators. However our mode-specific
+soft-thresholding estimator did not perform poorly under any of our simulated mean tensors.
+
+
+\begin{figure*}
+\begin{center}
+\includegraphics{./fig/different_scenario_sims_losses_combined2}
+\caption{Box plots of losses for the six estimators under different scenarios. The estimators include the mode-specific soft-thresholding (ST), truncated HOSVD (Tr), matrix soft-thresholding (MS), Efron-Morris (EM), James-Stein (JS), and maximum likelihood (X) estimators. In the scenarios, the mean tensor was simulated to have (\textbf{A}) uncorrelated elements, (\textbf{B}) full rank but dispersed singular values only along mode 1, (\textbf{C}) AR-1 covariance along mode 1, (\textbf{D}) low rank only along mode 1, (\textbf{E}) full rank but dispersed singular values along all modes, and (\textbf{F}) rank $(5,5,5)$ with all the same non-zero singular values.}
+\label{fig:sim.results}
+\end{center}
+\end{figure*}
+
+Our procedure for the truncated HOSVD produces a multilinear rank with the smallest SURE. It is of interest to know if this multilinear rank provides a good estimate of the true rank of $\Theta$. We evaluated this possibility in simulation Scenarios \textbf{D} and \textbf{F}. In Scenario \textbf{F}, where the tensor had dimension $(10,10,10)$ and the true multilinear rank was $(5,5,5)$, this SURE method correctly estimated the multilinear rank in 94.4\% of trials. In Scenario \textbf{D}, where the true multilinear rank was $(5,10,10)$, the results of the simulation study can be found in Table \ref{tab:rank.est}. There, we see that the rank of the first mode is correctly estimated in 96\% of trials. The rank of the second and third modes are correctly estimated a majority of the time.
+
+% latex table generated in R 3.1.2 by xtable 1.7-3 package
+% Fri Mar  6 11:18:30 2015
+\begin{table}[ht]
+\centering
+\begin{tabular}{rrrrrrrr}
+  \hline
+Estimated Rank & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\ 
+  \hline
+Mode 1 & .04 & .96 & 0 & 0 & 0 & 0 & 0 \\ 
+Mode 2 &   0 & .01 & .02 & .05 & .12 & .25 & .56 \\ 
+Mode 3 &   0 & 0 & 0 & .02 & .06 & .20 & .71 \\ 
+   \hline
+\end{tabular}
+\caption{Proportion of times each rank is estimated based on SURE for each mode over 500 repetitions when the true multilinear rank is $(5,10,10)$.}
+\label{tab:rank.est}
+\end{table}
+
+For the Mario movie in Figure \ref{fig:mario.movie.noise}, we calculated each estimator described in Section \ref{sec:simulation}. We compared each estimator with the true movie in Figure \ref{fig:mario.movie} under squared error loss over 1000 repetitions. A box plot of these losses is in Figure \ref{fig:mario.losses}. The mode-specific soft-thresholding estimator (\ref{equation:msst.est}) performs best among this set of estimators, having a MSE 81\% that of the matrix soft-thresholding estimator chosen with SURE from \cite{candes2013unbiased}.
+
+
+\begin{figure}
+\begin{center}
+\includegraphics{./fig/mario_losses}
+\caption{Box plot of losses on the Mario data set for each estimator. Abbreviations are the same as in Figure \ref{fig:sim.results}.}
+\label{fig:mario.losses}
+\end{center}
+\end{figure}

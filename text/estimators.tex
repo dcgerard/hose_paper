@@ -1,0 +1,35 @@
+\paragraph{Example: Truncated HOSVD to find the multilinear rank.}
+The first step in many tensor applications is to choose the multilinear rank of the underlying signal, a difficult task \citep{timmerman2000three,kiers2003fast,ceulemans2006selecting}. The methods in this paper present a way to choose the multilinear rank. The truncated HOSVD is one popular way to induce low multilinear rank \citep{de2000multilinear}. Given multilinear rank $(r_1,\ldots,r_K)$, it is found by taking the HOSVD (\ref{equation:hosvd}) and setting all elements in $\mathcal{S}$ except the ``corner'' $\mathcal{S}_{[1:r_1,\ldots,1:r_K]}$ to $0$. The truncated HOSVD may be viewed as a higher-order spectral estimator (\ref{equation:ho.spect.est}), where
+\begin{align}
+\label{equation:trunc.shrink}
+f^k_i(\sigma_i^k) = \sigma_i^k1(i \leq r_k).
+\end{align}
+This sets to 0 all but $r_k$ of the mode-specific singular values, resulting in an estimate of $\Theta$ that has multilinear rank $(r_1,\ldots,r_K)$. The set of all possible multilinear ranks defines a class of reduced rank estimators of $\Theta$. In this paper, we suggest adaptively selecting an estimator from this class by minimizing an unbiased estimate of the risk.
+
+
+\paragraph{Example: Mode-specific soft-thresholding.}
+Shrinking all of the singular values can generally improve estimation over just truncating the smallest few singular values. A popular form of shrinkage that accomplishes this, a result of nuclear-norm regularization, is the soft-thresholding estimator (\ref{equation:soft.thresholding}). The second estimator we explore is obtained by applying soft-thresholding to the mode-specific singular values:
+\begin{align}
+  \label{equation:mode.specific.soft}
+  f^k_i(\sigma_i^k) = (\sigma_i^k - \lambda_k)_+.
+\end{align}
+As with the previous example, the set of $(\lambda_1,\ldots,\lambda_K)$ defines a class of estimators. We propose adaptively selecting a member of this class by minimizing an unbiased estimate of the risk.
+
+A few words are in order about the mode-specific soft-thresholding estimator in (\ref{equation:mode.specific.soft}). First, we note that the resulting core array $(f^1(D_1)D_1^{-1},\ldots,f^K(D_K)D_K^{-1}) \cdot \mathcal{S}$ is not generally all-orthogonal. Hence, the $f^k(D_k)$ are not actually the new mode-specific singular values of the estimator $t(\mathcal{X})$. That is, it would be incorrect to think that subtracting off $\lambda_1$ from the first-mode singular values means that the new first-mode singular values are $\sigma_{i_1}^1 - \lambda_1$. We are altering the mode-specific singular values, but the relationship is complex. Rather, the proper intuition for shrinkage functions of the form (\ref{equation:mode.specific.soft}) is that the larger the value of $\lambda_k$, the more dispersed the resulting mode-specific singular values tend to be on a normalized scale. Likewise, the more negative the the value of $\lambda_k$ to the singular values the less dispersed the resulting mode-specific singular values tend to be. To gain intuition regarding this phenomenon, we provide an extreme case. We generated a $10 \times 10 \times 10$ tensor where each mode had approximately the same singular values. The first-mode specific singular values were $(947, 873, 844, 801, 746, 698, 675, 597, 524, 472)$. We applied the mode specific soft-thresholding function (\ref{equation:mode.specific.soft}) to each mode with $\lambda_1 = 500$, $\lambda_2 = 0$, $\lambda_3 = -10000$. We then calculated the mode-specific singular values of the resulting tensor and compared these to the original mode-specific singular values, scaled to sum to one. The comparisons can be found in Figure \ref{fig:function.intuition}. The changed (and normalized) singular values are more dispersed for the first mode, remain relatively unchanged for the second, and are less dispersed for the third.
+
+
+
+We have found that we can improve performance (with respect to MSE) by adding an overall scale tuning parameter. That is, we consider a shrinkage estimator of the form:
+\begin{align}
+  \label{equation:msst.est}
+  t(\mathcal{X}) = c\ (U_1,\ldots,U_K)\cdot(f^1(D_1)D_1^{-1},\ldots,f^K(D_K)D_K^{-1})\cdot\mathcal{S},
+\end{align}
+where $c > 0$ is the overall scale parameter, $f^k(D_k) = \diag(f_1^k(\sigma_1^k),\ldots,f_{p_k}^k(\sigma_{p_k}^k))$, and $f_i^k(\cdot)$ is from (\ref{equation:mode.specific.soft}).
+
+\begin{figure*}
+\begin{center}
+\includegraphics{./fig/effects_on_svs}
+\caption{Singular values for the three modes, before and after shrinkage, normalized to sum to one.}
+\label{fig:function.intuition}
+\end{center}
+\end{figure*}
