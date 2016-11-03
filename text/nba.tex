@@ -1,63 +1,124 @@
 \section{Multivariate relational data example}
 \label{sec:NBA}
 
-In this section, we demonstrate the
-applicability of our estimators to multivariate relational data.
-Such data may be viewed as a three-way tensor $\mathcal{X}$ where entry $\mathcal{X}_{[i,j,k]}$ is the value of relation type
-$k$ from node $i$ to node $j$. One example of such a data set is a social network in which multiple types of relations are measured between individuals.
-As another example, in sports statistics, round robin interaction data consist of outcomes of competitions between teams. In this section we illustrate our methods with round robin data from the 2014-2015
-regular season of the National Basketball Association (NBA). The NBA
-consists of a Western conference and an Eastern conference of
-fifteen teams each, where intra-conference play has three to four
-games per year per pair of teams and inter-conference play is limited
-to two games a season per pair of teams. For each conference, we
-created a four dimensional tensor where element $\mathcal{Y}_{[i,j,k,\ell]}$ is statistic $k$ obtained by team $i$ while playing team $j$ either during team $i$'s first home ($\ell = 1$) or first away ($\ell = 2$) game against team $j$ during the season. The statistics we considered were free-throw percentage, two-point field goal percentage, and three-point field goal percentage. We thus have two tensors each of dimension $15 \times 15 \times 3 \times 2$, one for each of the two conferences. 
-In this section, we illustrate the utility of tensor shrinkage by predicting late season relational basketball statistics from early season data. Our approach is analogous to that of \cite{efron1975data}, who illustrated the utility of vector shrinkage estimation by predicting late season baseball batting averages from data on early season batting averages. 
+In this section, we demonstrate the applicability of our estimators to
+multivariate relational data.  Such data may be viewed as a three-way
+tensor $\mathcal{X}$ where entry $\mathcal{X}_{[i,j,k]}$ is the value
+of relation type $k$ from node $i$ to node $j$. One example of such a
+data set is a social network in which multiple types of relations are
+measured between individuals.  As another example, in sports
+statistics, round robin interaction data consist of outcomes of
+competitions between teams. In this section we illustrate our methods
+with round robin data from the 2014-2015 regular season of the
+National Basketball Association (NBA). The NBA consists of a Western
+conference and an Eastern conference of fifteen teams each, where
+intra-conference play has three to four games per year per pair of
+teams and inter-conference play is limited to two games a season per
+pair of teams. For each conference, we created a four dimensional
+tensor where element $\mathcal{Y}_{[i,j,k,\ell]}$ is statistic $k$
+obtained by team $i$ while playing team $j$ either during team $i$'s
+first home ($\ell = 1$) or first away ($\ell = 2$) game against team
+$j$ during the season. The statistics we considered were free-throw
+percentage, two-point field goal percentage, and three-point field
+goal percentage. We thus have two tensors each of dimension $15 \times
+15 \times 3 \times 2$, one for each of the two conferences.  In this
+section, we illustrate the utility of tensor shrinkage by predicting
+late season relational basketball statistics from early season
+data. Our approach is analogous to that of \cite{efron1975data}, who
+illustrated the utility of vector shrinkage estimation by predicting
+late season baseball batting averages from data on early season
+batting averages.
 
-The statistics in our data set are all empirical proportions. We model the elements of $\mathcal{Y}$ with a binomial model, 
+The statistics in our data set are all empirical proportions. We model
+the elements of $\mathcal{Y}$ with a binomial model,
 \begin{align*}
-n_{i,j,k,\ell}\mathcal{Y}_{[i,j,k,\ell]} \sim \Bin(n_{i,j,k,\ell},p_{i,j,k,\ell}),
+  n_{i,j,k,\ell}\mathcal{Y}_{[i,j,k,\ell]} \sim \Bin(n_{i,j,k,\ell},p_{i,j,k,\ell}),
 \end{align*}
-where all elements are independent, given the $p_{i,j,k,\ell}$'s. We apply an arc-sin transformation to the data tensor to stabilize the variance:
+where all elements are independent, given the $p_{i,j,k,\ell}$'s. We
+apply an arc-sin transformation to the data tensor to stabilize the
+variance:
 \begin{align*}
-\mathcal{X}_{[i,j,k,\ell]} = (n_{i,j,k,\ell})^{1/2}\arcsin(2\mathcal{Y}_{[i,j,k,\ell]} - 1).
+  \mathcal{X}_{[i,j,k,\ell]} = (n_{i,j,k,\ell})^{1/2}\arcsin(2\mathcal{Y}_{[i,j,k,\ell]} - 1).
 \end{align*}
 From the central limit theorem, we have approximately
 \begin{align*}
-\mathcal{X}_{[i,j,k,\ell]} \sim N(\Theta_{[i,j,k,\ell]},1),
+  \mathcal{X}_{[i,j,k,\ell]} \sim N(\Theta_{[i,j,k,\ell]},1),
 \end{align*}
-where $\Theta_{[i,j,k,\ell]} = (n_{i,j,k,\ell})^{1/2}\arcsin(2p_{i,j,k,\ell} -
-1)$, resulting in the model in (\ref{equation:normal.model}).
+where $\Theta_{[i,j,k,\ell]} =
+(n_{i,j,k,\ell})^{1/2}\arcsin(2p_{i,j,k,\ell} - 1)$, resulting in the
+model in (\ref{equation:normal.model}).
 
-A commonly used representation of a mean tensor $\Theta$ is an ANOVA decomposition, such as
+A commonly used representation of a mean tensor $\Theta$ is an ANOVA
+decomposition, such as
 \begin{align*}
-\Theta_{[i,j,k,\ell]} = \mu + \alpha_i + \beta_j + \gamma_k + \delta_{\ell} + \tilde{\Theta}_{[i,j,k,\ell]},
+  \Theta_{[i,j,k,\ell]} = \mu + \alpha_i + \beta_j + \gamma_k + \delta_{\ell} + \tilde{\Theta}_{[i,j,k,\ell]},
 \end{align*}
 where $\tilde{\Theta}_{[i,j,k,\ell]}$ contains all of the interaction
 effects. Note that $\mathbf{1}_{p_1}^T\alpha = 0$,
 $\mathbf{1}_{p_2}^T\beta = 0$, $\mathbf{1}_{p_3}\gamma = 0$, and
 $\mathbf{1}_{p_4}^T\delta = 0$, where $\mathbf{1}_{p_k}$ is the vector
 of ones of length $p_k$. The tensor $\tilde{\Theta}$ also satisfies
-$\Tilde{\Theta}_{(k)}\mathbf{1}_{p/p_k} = 0$ for all $k = 1,2,3,4$. Suppose we obtain the maximum likelihood estimates of $\mu$,
+$\Tilde{\Theta}_{(k)}\mathbf{1}_{p/p_k} = 0$ for all $k =
+1,2,3,4$. Suppose we obtain the maximum likelihood estimates of $\mu$,
 $\alpha$, $\beta$, $\gamma$, and $\delta$ by fitting a main-effects
 ANOVA model. We then calculate the residual tensor,
 \begin{align*}
 %%\mathcal{R}_{[i,j,k,\ell]} = \mathcal{X}_{[i,j,k,\ell]} - \mathcal{X}_{[i\cdot\cdot\cdot]} - \mathcal{X}_{[\cdot j\cdot\cdot]} - \mathcal{X}_{[\cdot\cdot k\cdot]} - \mathcal{X}_{[\cdot\cdot\cdot\ell]} + 3\mathcal{X}_{[\cdot\cdot\cdot\cdot]},
-\mathcal{R}_{[i,j,k,\ell]} =& \mathcal{X}_{[i,j,k,\ell]} -
-\frac{p_1}{p}\sum_{j',k',\ell'}\mathcal{X}_{[i,j',k',\ell']} -
-\frac{p_2}{p}\sum_{i',k',\ell'}\mathcal{X}_{[i',j,k',\ell']} -
-\frac{p_3}{p}\sum_{i',j',\ell'}\mathcal{X}_{[i',j',k,\ell']} \\
-&- \frac{p_4}{p}\sum_{i',j',k'}\mathcal{X}_{[i',j',k',\ell]} + \frac{3}{p}\sum_{i',j',k',\ell'}\mathcal{X}_{[i',j',k',\ell']}.
+  \mathcal{R}_{[i,j,k,\ell]} =& \mathcal{X}_{[i,j,k,\ell]} -
+  \frac{p_1}{p}\sum_{j',k',\ell'}\mathcal{X}_{[i,j',k',\ell']} -
+  \frac{p_2}{p}\sum_{i',k',\ell'}\mathcal{X}_{[i',j,k',\ell']} -
+  \frac{p_3}{p}\sum_{i',j',\ell'}\mathcal{X}_{[i',j',k,\ell']} \\
+  &- \frac{p_4}{p}\sum_{i',j',k'}\mathcal{X}_{[i',j',k',\ell]} + \frac{3}{p}\sum_{i',j',k',\ell'}\mathcal{X}_{[i',j',k',\ell']}.
 \end{align*}
- This residual tensor has an expected value of $\tilde{\Theta}$.
- It was proposed in \cite{stein1966approach} and
-\cite{efron1972empirical} that we estimate the interaction effects $\tilde{\Theta}$ with
-a vector shrinkage-type estimator on the residuals. If the interactions $\tilde{\Theta}$ are close to zero --- when
-the interaction effects are small --- then such estimators will adaptively shrink the residuals towards zero. However, these estimators were developed to adapt to patterns in vectors or matrices of residuals, and not tensors of residuals. In contrast, our approach should be able to adapt to these patterns along any of the four modes of the residual tensor.
+This residual tensor has an expected value of $\tilde{\Theta}$.  It
+was proposed in \cite{stein1966approach} and \cite{efron1972empirical}
+that we estimate the interaction effects $\tilde{\Theta}$ with a
+vector shrinkage-type estimator on the residuals. If the interactions
+$\tilde{\Theta}$ are close to zero --- when the interaction effects
+are small --- then such estimators will adaptively shrink the
+residuals towards zero. However, these estimators were developed to
+adapt to patterns in vectors or matrices of residuals, and not tensors
+of residuals. In contrast, our approach should be able to adapt to
+these patterns along any of the four modes of the residual tensor.
 
-We applied mode-specific soft-thresholding and the truncated HOSVD to the array of residuals $\mathcal{R}$ from the main effects ANOVA model. These methods suggest that the residual tensor should be heavily shrunk both towards zero and towards low multilinear rank structure. For the West, the Frobenius norm of the residual tensor was 38.38, while the Frobenius norm of the resulting shrunken residual tensor using the mode-specific soft-thresholding estimator was 7.81. In the East, the values were 38.95 and 6.97, respectively. We also used SURE to estimate the multilinear rank of each residual tensor using the truncated HOSVD. The estimated multilinear rank of the residual tensor of the Western conference was  $2 \times 3 \times 1 \times 2$, and for the Eastern conference the estimated multilinear rank was $4 \times 2 \times 1 \times 1$. These are very small ranks compared to the dimensions of the tensors $15 \times 15 \times 3 \times 2$.
+We applied mode-specific soft-thresholding and the truncated HOSVD to
+the array of residuals $\mathcal{R}$ from the main effects ANOVA
+model. These methods suggest that the residual tensor should be
+heavily shrunk both towards zero and towards low multilinear rank
+structure. For the West, the Frobenius norm of the residual tensor was
+38.38, while the Frobenius norm of the resulting shrunken residual
+tensor using the mode-specific soft-thresholding estimator was
+7.81. In the East, the values were 38.95 and 6.97, respectively. We
+also used SURE to estimate the multilinear rank of each residual
+tensor using the truncated HOSVD. The estimated multilinear rank of
+the residual tensor of the Western conference was $2 \times 3 \times 1
+\times 2$, and for the Eastern conference the estimated multilinear
+rank was $4 \times 2 \times 1 \times 1$. These are very small ranks
+compared to the dimensions of the tensors $15 \times 15 \times 3
+\times 2$.
 
-An ad hoc evaluation of the performance of our estimators can be obtained by predicting game statistics after the first home and first away games. Since some teams only play each other three times, we do not have late season data on all possible combinations of team pairs by home versus away games. For the late season data we do have, we present the squared error losses for predicting the statistics of the remaining part of the season for each conference in Table \ref{tab:sel.nba}. The different estimators are (1) the raw data array $\mathcal{X}$, (2) the mean estimates of the main-effects ANOVA model, (3) the mode-specific soft-thresholding shrunken residual tensor added to the mean estimates of the main-effects ANOVA model, (4) the truncated HOSVD shrunken residual tensor added to the mean estimates of the main-effects ANOVA model, and (5) an estimator derived from logistic regression using the main-effects of each mode. The losses are with respect to the arc-sin transformed data. The poor performance of $\mathcal{X}$ is unsurprising. The amount of shrinkage that our estimators produce indicates that the fully saturated model is over-fitting and that most of the information is contained in the main-effects. However, our mode-specific soft-thresholding estimator is also fitting the fully saturated model and it performs comparable to the main-effects ANOVA model, even improving the predictions for the Eastern conference.
+An ad hoc evaluation of the performance of our estimators can be
+obtained by predicting game statistics after the first home and first
+away games. Since some teams only play each other three times, we do
+not have late season data on all possible combinations of team pairs
+by home versus away games. For the late season data we do have, we
+present the squared error losses for predicting the statistics of the
+remaining part of the season for each conference in Table
+\ref{tab:sel.nba}. The different estimators are (1) the raw data array
+$\mathcal{X}$, (2) the mean estimates of the main-effects ANOVA model,
+(3) the mode-specific soft-thresholding shrunken residual tensor added
+to the mean estimates of the main-effects ANOVA model, (4) the
+truncated HOSVD shrunken residual tensor added to the mean estimates
+of the main-effects ANOVA model, and (5) an estimator derived from
+logistic regression using the main-effects of each mode. The losses
+are with respect to the arc-sin transformed data. The poor performance
+of $\mathcal{X}$ is unsurprising. The amount of shrinkage that our
+estimators produce indicates that the fully saturated model is
+over-fitting and that most of the information is contained in the
+main-effects. However, our mode-specific soft-thresholding estimator
+is also fitting the fully saturated model and it performs comparable
+to the main-effects ANOVA model, even improving the predictions for
+the Eastern conference.
 
 
 \begin{table}[ht]
@@ -76,28 +137,43 @@ An ad hoc evaluation of the performance of our estimators can be obtained by pre
 \end{table}
 
 \begin{comment}
-\begin{itemize}
-\item Our estimators adaptively shrunk residuals very close to zero. For the West, the Frobenius norm of the residual array was 38.38, and norm of the resulting shrunken residual array was 7.81. In the East, the values were 38.95 and 6.97.
-\item Also, performance on the remaining season was comparable: The loss in the West was 1385 vs loss of 1364 and in the East it was 1327 vs 1344. For $X$ the loss was 2200 in the West and 2410 for the East. Note that not taking into account the tensor structure (by using $\mathcal{X}$, does horribly).
-\item West: estimated rank of $2 \times 3 \times 1 \times 2$.
-\item East: estimated rank of $4 \times 2 \times 1 \times 1$.
-\item East Multiway EDA:
   \begin{itemize}
-  \item Third mode first singular vector: (-0.94,0.08,0.34) (for FT, 2FG, 3FG)
-  \item Hence: core array relationship changes between FT and 3FG, and most of the effects of 2FG represented in additive model.
-  \item Fourth mode first singular vector: (0.38,0.92) (for home and away games).
-  \item Hence, effect more pronounced for away games vs home games (away games more variable?).
-  \item Resulting Core array (represents relationship between first and second modes, changes sign for free throws vs 3pt field goals):
-    \begin{table}[ht]
-      \centering
-      \begin{tabular}{rr}
-        1 & -6 \\ 
-        -6 & -1 \\ 
-        -4 & -2 \\ 
-        1 & 0 \\ 
-      \end{tabular}
-    \end{table}
-  \item Biggest interactions occur between (1) $U_{1[,1]}$ and $U_{2[,2]}$, (2) $U_{1[,2]}$ and $U_{2[,1]}$, and to a lesser extend (3) $U_{1[,3]}$ and $U_{2[,1]}$.
+  \item Our estimators adaptively shrunk residuals very close to
+    zero. For the West, the Frobenius norm of the residual array was
+    38.38, and norm of the resulting shrunken residual array was
+    7.81. In the East, the values were 38.95 and 6.97.
+  \item Also, performance on the remaining season was comparable: The
+    loss in the West was 1385 vs loss of 1364 and in the East it was
+    1327 vs 1344. For $X$ the loss was 2200 in the West and 2410 for
+    the East. Note that not taking into account the tensor structure
+    (by using $\mathcal{X}$, does horribly).
+  \item West: estimated rank of $2 \times 3 \times 1 \times 2$.
+  \item East: estimated rank of $4 \times 2 \times 1 \times 1$.
+  \item East Multiway EDA:
+    \begin{itemize}
+    \item Third mode first singular vector: (-0.94,0.08,0.34) (for FT,
+      2FG, 3FG)
+    \item Hence: core array relationship changes between FT and 3FG,
+      and most of the effects of 2FG represented in additive model.
+    \item Fourth mode first singular vector: (0.38,0.92) (for home and
+      away games).
+    \item Hence, effect more pronounced for away games vs home games
+      (away games more variable?).
+    \item Resulting Core array (represents relationship between first
+      and second modes, changes sign for free throws vs 3pt field
+      goals):
+      \begin{table}[ht]
+        \centering
+        \begin{tabular}{rr}
+          1 & -6 \\
+          -6 & -1 \\
+          -4 & -2 \\
+          1 & 0 \\
+        \end{tabular}
+      \end{table}
+    \item Biggest interactions occur between (1) $U_{1[,1]}$ and
+      $U_{2[,2]}$, (2) $U_{1[,2]}$ and $U_{2[,1]}$, and to a lesser
+      extend (3) $U_{1[,3]}$ and $U_{2[,1]}$.
+    \end{itemize}
   \end{itemize}
-\end{itemize}
 \end{comment}

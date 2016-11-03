@@ -1,29 +1,53 @@
 \section{Stein's unbiased risk estimate}
 \label{sec:sure_form}
 
-Both shrinkage function (\ref{equation:trunc.shrink}) and (\ref{equation:msst.est}) define classes of estimators, indexed by tuning parameters.  Ideally, we would like to choose these tuning parameters by minimizing the risk (\ref{equation:mse}). However, because the mean $\Theta$ is unknown, minimization of (\ref{equation:mse}) with respect to the tuning parameters is not possible. One approach for selecting an estimator from one of these classes is to minimize a risk estimate that does not depend on the unknown parameter. One such estimate is Stein's unbiased risk estimate:
+Both shrinkage function (\ref{equation:trunc.shrink}) and
+(\ref{equation:msst.est}) define classes of estimators, indexed by
+tuning parameters.  Ideally, we would like to choose these tuning
+parameters by minimizing the risk (\ref{equation:mse}). However,
+because the mean $\Theta$ is unknown, minimization of
+(\ref{equation:mse}) with respect to the tuning parameters is not
+possible. One approach for selecting an estimator from one of these
+classes is to minimize a risk estimate that does not depend on the
+unknown parameter. One such estimate is Stein's unbiased risk
+estimate:
 \begin{theorem}[\cite{stein1981estimation}]
-\label{theorem:stein.theorem}
+  \label{theorem:stein.theorem}
   Under the model (\ref{equation:normal.model}), suppose $t: \mathbb{R}^{p_1\times\cdots\times p_K} \rightarrow \mathbb{R}^{p_1\times\cdots\times p_K}$ is an almost differentiable function for which
-\begin{align}
-\label{equation:int.condition}
-E_{\Theta}\left[\sum_{\mathbf{i}} \left|\frac{d}{d\mathcal{X}_{[\mathbf{i}]}}t_{\mathbf{i}}(\mathcal{X}_{[\mathbf{i}]})\right|\right] < \infty.
-\end{align}
-Then
-\begin{align*}
-\mse(t(\mathcal{X})) = E_{\Theta}[||\Theta - t(\mathcal{X})||^2] = E_{\Theta}\left[ ||t(\mathcal{X}) - \mathcal{X}||^2 + 2\tau^2\diverge(t(\mathcal{X})) - p\tau^2\right],
-\end{align*}
-where $\diverge(\cdot)$ is the divergence of $t(\cdot)$. We denote Stein's unbiased risk estimate (SURE) as 
-\begin{align}
-\label{equation:sure.form}
-\sure(t) = ||t(\mathcal{X}) - \mathcal{X}||^2 + 2\tau^2\diverge(t(\mathcal{X})) - p\tau^2.
-\end{align}
+  \begin{align}
+    \label{equation:int.condition}
+    E_{\Theta}\left[\sum_{\mathbf{i}} \left|\frac{d}{d\mathcal{X}_{[\mathbf{i}]}}t_{\mathbf{i}}(\mathcal{X}_{[\mathbf{i}]})\right|\right] < \infty.
+  \end{align}
+  Then
+  \begin{align*}
+    \mse(t(\mathcal{X})) = E_{\Theta}[||\Theta - t(\mathcal{X})||^2] = E_{\Theta}\left[ ||t(\mathcal{X}) - \mathcal{X}||^2 + 2\tau^2\diverge(t(\mathcal{X})) - p\tau^2\right],
+  \end{align*}
+  where $\diverge(\cdot)$ is the divergence of $t(\cdot)$. We denote
+  Stein's unbiased risk estimate (SURE) as
+  \begin{align}
+    \label{equation:sure.form}
+    \sure(t) = ||t(\mathcal{X}) - \mathcal{X}||^2 + 2\tau^2\diverge(t(\mathcal{X})) - p\tau^2.
+  \end{align}
 \end{theorem}
 
-``Almost differentiable'' basically means differentiable everywhere except on a set of Lebesgue measure zero \citep[Definition 1]{stein1981estimation}. Because the SURE (\ref{equation:sure.form}) does not depend on the parameter values $\Theta$, we can minimize the SURE and use this minimization as a proxy for minimizing the risk. In many cases, adaptive estimators obtained by minimizing SURE over a class of estimators yields improved risk performance, as was observed by \cite{candes2013unbiased} in the matrix case.
+``Almost differentiable'' basically means differentiable everywhere
+except on a set of Lebesgue measure zero \citep[Definition
+1]{stein1981estimation}. Because the SURE (\ref{equation:sure.form})
+does not depend on the parameter values $\Theta$, we can minimize the
+SURE and use this minimization as a proxy for minimizing the risk. In
+many cases, adaptive estimators obtained by minimizing SURE over a
+class of estimators yields improved risk performance, as was observed
+by \cite{candes2013unbiased} in the matrix case.
 
 
-The difficult part of (\ref{equation:sure.form}) is calculating the divergence. We will spend the next two subsections performing this task. First, we will calculate the differentials for the elements of the altered HOSVD (\ref{equation:hosvd.rewrite}) in Subsection \ref{subsection:diff}. Then we will use these differentials to derive the divergence of estimators of the form (\ref{equation:ho.spect.est}) in Subsection \ref{subsection:div}. This divergence can then be inserted into (\ref{equation:sure.form}) to obtain the SURE.
+The difficult part of (\ref{equation:sure.form}) is calculating the
+divergence. We will spend the next two subsections performing this
+task. First, we will calculate the differentials for the elements of
+the altered HOSVD (\ref{equation:hosvd.rewrite}) in Subsection
+\ref{subsection:diff}. Then we will use these differentials to derive
+the divergence of estimators of the form (\ref{equation:ho.spect.est})
+in Subsection \ref{subsection:div}. This divergence can then be
+inserted into (\ref{equation:sure.form}) to obtain the SURE.
 
 
 
@@ -31,173 +55,251 @@ The difficult part of (\ref{equation:sure.form}) is calculating the divergence. 
 
 \subsection{Differentials of the HOSVD}
 \label{subsection:diff}
-In this subsection, we calculate the differentials for the elements in the altered HOSVD (\ref{equation:hosvd.rewrite}). In what follows, we will assume that $\mathcal{X}$ has full multilinear rank. Given that $p_k \leq p/p_k$ for all $k = 1,\ldots,K$, where $p = \prod_{k=1}^Kp_k$, this rank condition is fulfilled almost surely for data $\mathcal{X}$ that have a p.d.f. that is absolutely continuous with respect to Lebesgue measure on $\mathbb{R}^{p_1\times\cdots\times p_K}$ \cite[Proposition 7.2]{de2008tensor}.
+In this subsection, we calculate the differentials for the elements in
+the altered HOSVD (\ref{equation:hosvd.rewrite}). In what follows, we
+will assume that $\mathcal{X}$ has full multilinear rank. Given that
+$p_k \leq p/p_k$ for all $k = 1,\ldots,K$, where $p =
+\prod_{k=1}^Kp_k$, this rank condition is fulfilled almost surely for
+data $\mathcal{X}$ that have a p.d.f. that is absolutely continuous
+with respect to Lebesgue measure on $\mathbb{R}^{p_1\times\cdots\times
+  p_K}$ \cite[Proposition 7.2]{de2008tensor}.
 
 \begin{theorem}
-\label{theorem:diff}
-The differentials of $D_k$, $U_k$, and $\mathcal{V}$ from (\ref{equation:hosvd.rewrite}) are given in equations (\ref{equation:d.D}), (\ref{equation:d.U}), and (\ref{equation:d.V}), respectively.
+  \label{theorem:diff}
+  The differentials of $D_k$, $U_k$, and $\mathcal{V}$ from
+  (\ref{equation:hosvd.rewrite}) are given in equations
+  (\ref{equation:d.D}), (\ref{equation:d.U}), and
+  (\ref{equation:d.V}), respectively.
 \end{theorem}
 
 
-An outline of the derivation is as follows: Because each $U_k$ and $D_k$ from the HOSVD is from the SVD of $\mathcal{X}_{(k)} = U_kD_kV_k^T$, the calculation begins by recognizing that the differentials of the $U_k$'s and the $D_k$'s are the same as in the matrix case. The differentials can then be re-written as functions of the terms in the HOSVD. To obtain the differential of $\mathcal{V}$, we write $\mathcal{X} = (U_1,\ldots,U_K)\cdot(D_1,\ldots,D_K)\cdot\mathcal{V}$ and apply the chain rule to each $U_k$, each $D_k$, then to $\mathcal{V}$. We then solve for the differential of $\mathcal{V}$, which may be written in terms of the differentials of the $U_k$'s and the $D_k$'s.
+An outline of the derivation is as follows: Because each $U_k$ and
+$D_k$ from the HOSVD is from the SVD of $\mathcal{X}_{(k)} =
+U_kD_kV_k^T$, the calculation begins by recognizing that the
+differentials of the $U_k$'s and the $D_k$'s are the same as in the
+matrix case. The differentials can then be re-written as functions of
+the terms in the HOSVD. To obtain the differential of $\mathcal{V}$,
+we write $\mathcal{X} =
+(U_1,\ldots,U_K)\cdot(D_1,\ldots,D_K)\cdot\mathcal{V}$ and apply the
+chain rule to each $U_k$, each $D_k$, then to $\mathcal{V}$. We then
+solve for the differential of $\mathcal{V}$, which may be written in
+terms of the differentials of the $U_k$'s and the $D_k$'s.
 
 \begin{proof}[Proof of Theorem \ref{theorem:diff}]
-Denote the differential of a function $g$ at $\mathcal{X}$ with increment $\Delta$ as $dg[\Delta]$. Since $U_k$ and $D_k$ are the left singular vectors and the singular values, respectively, of $\mathcal{X}_{(k)}$ for each $k = 1,\ldots,K$, the differentials, $dU_k[\Delta]$ and $dD_k[\Delta]$, are the same as in \cite{candes2013unbiased} and have a closed form solution, given by
-\begin{align}
-\label{equation:d.D}
-d\sigma_i^k[\Delta] = (U_k^T\Delta_{(k)}U_{-k}\mathcal{S}_{(k)}D_k^{-1})_{[i,i]} \text{ for } i =1,\ldots,p_k \text{ and } k=1,\ldots,K,
-\end{align}
-where
-\begin{align*}
-U_{-k} = U_K\otimes \cdots \otimes U_{k+1} \otimes U_{k-1}\otimes\cdots\otimes U_1.
-\end{align*}
-This follows because the SVD of $\mathcal{X}_{(k)}$ is $U_kD_kV_k^T = U_k\mathcal{S}_{(k)}U_{-k}^T$ which implies that $V_k = U_{-k}\mathcal{S}_{(k)}^TD_{k}^{-1}$. We plug in $V_k$ into equation (4.7) of \cite{candes2013unbiased} to get (\ref{equation:d.D}). 
+  Denote the differential of a function $g$ at $\mathcal{X}$ with
+  increment $\Delta$ as $dg[\Delta]$. Since $U_k$ and $D_k$ are the
+  left singular vectors and the singular values, respectively, of
+  $\mathcal{X}_{(k)}$ for each $k = 1,\ldots,K$, the differentials,
+  $dU_k[\Delta]$ and $dD_k[\Delta]$, are the same as in
+  \cite{candes2013unbiased} and have a closed form solution, given by
+  \begin{align}
+    \label{equation:d.D}
+    d\sigma_i^k[\Delta] = (U_k^T\Delta_{(k)}U_{-k}\mathcal{S}_{(k)}D_k^{-1})_{[i,i]} \text{ for } i =1,\ldots,p_k \text{ and } k=1,\ldots,K,
+  \end{align}
+  where
+  \begin{align*}
+    U_{-k} = U_K\otimes \cdots \otimes U_{k+1} \otimes U_{k-1}\otimes\cdots\otimes U_1.
+  \end{align*}
+  This follows because the SVD of $\mathcal{X}_{(k)}$ is $U_kD_kV_k^T
+  = U_k\mathcal{S}_{(k)}U_{-k}^T$ which implies that $V_k =
+  U_{-k}\mathcal{S}_{(k)}^TD_{k}^{-1}$. We plug in $V_k$ into equation
+  (4.7) of \cite{candes2013unbiased} to get (\ref{equation:d.D}).
 
-Let $\Omega_{U_k}[\Delta] = U_k^TdU_k[\Delta]$. Then from (4.8) of \cite{candes2013unbiased} we have
-\begin{align}
-\begin{split}
-\label{equation:d.omega}
-&\Omega_{U_k}[\Delta]_{[i,j]} \\
-&= - 1(i \neq j)\left[\sigma_j^k(U_k^T\Delta_{(k)}U_{-k}S_{(k)}^TD_k^{-1})_{[i,j]} + \sigma_i^k(U_k^T\Delta_{(k)}U_{-k}S_{(k)}^TD_k^{-1})_{[j,i]}\right]/((\sigma_i^k)^2 - (\sigma_j^k)^2),
-\end{split}
-\end{align}
-and so
-\begin{align}
-\label{equation:d.U}
-dU_k[\Delta] = U\Omega_{U_k}[\Delta].
-\end{align}
+  Let $\Omega_{U_k}[\Delta] = U_k^TdU_k[\Delta]$. Then from (4.8) of
+  \cite{candes2013unbiased} we have
+  \begin{align}
+    \begin{split}
+      \label{equation:d.omega}
+      &\Omega_{U_k}[\Delta]_{[i,j]} \\
+      &= - 1(i \neq j)\left[\sigma_j^k(U_k^T\Delta_{(k)}U_{-k}S_{(k)}^TD_k^{-1})_{[i,j]} + \sigma_i^k(U_k^T\Delta_{(k)}U_{-k}S_{(k)}^TD_k^{-1})_{[j,i]}\right]/((\sigma_i^k)^2 - (\sigma_j^k)^2),
+    \end{split}
+  \end{align}
+  and so
+  \begin{align}
+    \label{equation:d.U}
+    dU_k[\Delta] = U\Omega_{U_k}[\Delta].
+  \end{align}
 
-We now derive $d\mathcal{V}[\Delta]$. Let $U = (U_1,\ldots,U_K)$ and $D = (D_1,\ldots,D_K)$. Also note that $d\mathcal{X}[\Delta] = \Delta$. Using the chain rule, and following Chapter 8, Section 1, Equations (15) and (16) of \cite{magnus1999matrix} for the differential of matrix multiplication and the Kronecker product, we have
-\begin{align}
-\Delta = d\mathcal{X}[\Delta] &= d(U\cdot D \cdot\mathcal{V})[\Delta] \nonumber\\
-&=\sum_{k=1}^Kd\underline{U}_k[\Delta] \cdot D \cdot \mathcal{V} + \sum_{k=1}^K U \cdot d\underline{D}_k[\Delta] \cdot \mathcal{V} + U \cdot D \cdot d\mathcal{V}[\Delta], \label{equation:chain.rule}
-\end{align}
-where
-\begin{align}
-&d\underline{U}_k[\Delta] = (U_1,\ldots,U_{k-1},dU_k[\Delta],U_{k+1},\ldots,U_K) \text{ and} \label{equation:U.underline}\\
-&d\underline{D}_k[\Delta] = (D_1,\ldots,D_{k-1},dD_k[\Delta],D_{k+1},\ldots,D_K).
-\end{align}
+  We now derive $d\mathcal{V}[\Delta]$. Let $U = (U_1,\ldots,U_K)$ and
+  $D = (D_1,\ldots,D_K)$. Also note that $d\mathcal{X}[\Delta] =
+  \Delta$. Using the chain rule, and following Chapter 8, Section 1,
+  Equations (15) and (16) of \cite{magnus1999matrix} for the
+  differential of matrix multiplication and the Kronecker product, we
+  have
+  \begin{align}
+    \Delta = d\mathcal{X}[\Delta] &= d(U\cdot D \cdot\mathcal{V})[\Delta] \nonumber\\
+    &=\sum_{k=1}^Kd\underline{U}_k[\Delta] \cdot D \cdot \mathcal{V} + \sum_{k=1}^K U \cdot d\underline{D}_k[\Delta] \cdot \mathcal{V} + U \cdot D \cdot d\mathcal{V}[\Delta], \label{equation:chain.rule}
+  \end{align}
+  where
+  \begin{align}
+    &d\underline{U}_k[\Delta] = (U_1,\ldots,U_{k-1},dU_k[\Delta],U_{k+1},\ldots,U_K) \text{ and} \label{equation:U.underline}\\
+    &d\underline{D}_k[\Delta] = (D_1,\ldots,D_{k-1},dD_k[\Delta],D_{k+1},\ldots,D_K).
+  \end{align}
 
-From (\ref{equation:chain.rule}), we solve for $d\mathcal{V}[\Delta]$ and have
-\begin{align}
-\label{equation:d.V}
-d\mathcal{V}[\Delta] = D^{-1} \cdot U^T \cdot \Delta - \sum_{k=1}^K dF_k[\Delta]\cdot \mathcal{V} - \sum_{k=1}^K dG_k[\Delta] \cdot \mathcal{V},
-\end{align}
-where
-\begin{align}
-\label{equation:d.FG}
-&dF_k[\Delta] = (I_{p_1},\ldots,I_{p_{k-1}},D_k^{-1}\Omega_{U_k}[\Delta]D_k,I_{p_{k+1}},\ldots,I_{p_K}) \text{ and}\\
-&dG_k[\Delta] = (I_{p_1},\ldots,I_{p_{k-1}},D_k^{-1}dD_k[\Delta],I_{p_{k+1}},\ldots,I_{p_K}).
-\end{align}
+  From (\ref{equation:chain.rule}), we solve for
+  $d\mathcal{V}[\Delta]$ and have
+  \begin{align}
+    \label{equation:d.V}
+    d\mathcal{V}[\Delta] = D^{-1} \cdot U^T \cdot \Delta - \sum_{k=1}^K dF_k[\Delta]\cdot \mathcal{V} - \sum_{k=1}^K dG_k[\Delta] \cdot \mathcal{V},
+  \end{align}
+  where
+  \begin{align}
+    \label{equation:d.FG}
+    &dF_k[\Delta] = (I_{p_1},\ldots,I_{p_{k-1}},D_k^{-1}\Omega_{U_k}[\Delta]D_k,I_{p_{k+1}},\ldots,I_{p_K}) \text{ and}\\
+    &dG_k[\Delta] = (I_{p_1},\ldots,I_{p_{k-1}},D_k^{-1}dD_k[\Delta],I_{p_{k+1}},\ldots,I_{p_K}).
+  \end{align}
 \end{proof}
 
 \subsection{Divergence of higher-order spectral estimators}
 \label{subsection:div}
-In this section, we  show that the divergence of higher-order spectral estimators of the form (\ref{equation:ho.spect.est}) can be found in the following theorem.
+In this section, we show that the divergence of higher-order spectral
+estimators of the form (\ref{equation:ho.spect.est}) can be found in
+the following theorem.
 \begin{theorem}
-The divergence of estimators of the form (\ref{equation:ho.spect.est}) is
+  The divergence of estimators of the form
+  (\ref{equation:ho.spect.est}) is
 \begin{align}
-\sumo\left(f(D) \cdot D^{-1}\cdot \mathcal{C} + \sum_{k=1}^KH_k \cdot \mathcal{S}^2\right), \label{equation:divergence.final}
+  \sumo\left(f(D) \cdot D^{-1}\cdot \mathcal{C} + \sum_{k=1}^KH_k \cdot \mathcal{S}^2\right), \label{equation:divergence.final}
 \end{align}
-where $\sumo(\mathcal{A})$ is the sum of all elements in the tensor $\mathcal{A}$,  $\mathcal{S}^2 \in \mathbb{R}^{p_1\times\cdots\times p_K}$ such that $(\mathcal{S}^2)_{[\mathbf{i}]} = (\mathcal{S}_{[\mathbf{i}]})^2$,
+where $\sumo(\mathcal{A})$ is the sum of all elements in the tensor
+$\mathcal{A}$, $\mathcal{S}^2 \in \mathbb{R}^{p_1\times\cdots\times
+  p_K}$ such that $(\mathcal{S}^2)_{[\mathbf{i}]} =
+(\mathcal{S}_{[\mathbf{i}]})^2$,
 \begin{align}
-\label{equation:H.k}
-H_k = (f^1(D_1)D_1^{-1},\ldots,f^{k-1}(D_{k-1})D_{k-1}^{-1},D_{k}^{-1}df^k(D_k)D_k^{-1},f^{k+1}(D_{k+1}),\ldots,f^K(D_K)),
+  \label{equation:H.k}
+  H_k = (f^1(D_1)D_1^{-1},\ldots,f^{k-1}(D_{k-1})D_{k-1}^{-1},D_{k}^{-1}df^k(D_k)D_k^{-1},f^{k+1}(D_{k+1}),\ldots,f^K(D_K)),
 \end{align}
 and $\mathcal{C} \in \mathbb{R}^{p_1\times\cdots\times p_K}$ such that
 \begin{align}
-\label{equation:C.array}
-\mathcal{C}_{[{\bf i}]} =  1 + \sum_{k=1}^K \sum_{j = 1, j\neq i_k}^{p_k} \frac{\mathcal{S}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}^2}{(\sigma_{i_k}^k)^2 - (\sigma_{j}^k)^2} - \mathcal{S}_{\bf [i]}^2\sum_{k=1}^K\left( \frac{1}{(\sigma_{i_k}^k)^2} + \sum_{m=1,m\neq i_k}^{p_k}\frac{1}{(\sigma_m^k)^2 - (\sigma_{i_k}^k)^2}  \right).
+  \label{equation:C.array}
+  \mathcal{C}_{[{\bf i}]} =  1 + \sum_{k=1}^K \sum_{j = 1, j\neq i_k}^{p_k} \frac{\mathcal{S}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}^2}{(\sigma_{i_k}^k)^2 - (\sigma_{j}^k)^2} - \mathcal{S}_{\bf [i]}^2\sum_{k=1}^K\left( \frac{1}{(\sigma_{i_k}^k)^2} + \sum_{m=1,m\neq i_k}^{p_k}\frac{1}{(\sigma_m^k)^2 - (\sigma_{i_k}^k)^2}  \right).
 \end{align}
 \end{theorem}
 
 \begin{proof}
- Let
-\begin{align*}
-\Delta^{i_1,\ldots,i_K} = \Delta^{\bf i} = U_{1[:,i_1]} \circ \cdots \circ U_{K[:,i_K]},
-\end{align*}
-where $\circ$ is the outer product and $U_{k[:,i_k]}$ is the $i_k$th column of $U_k$. Note that
-\begin{align*}
-(U_1^T,\ldots,U_K^T)\cdot\Delta^{\bf i} = E^{\bf i},
-\end{align*}
-where $E^{\bf i}$ is the $p_1\times\cdots\times p_K$ array with a one in position $(i_1,\ldots,i_K)$ and zeros everywhere else. Similar to the arguments of \cite{candes2013unbiased}, also note that $\Delta^{\bf i}$ forms an orthonormal basis for $\mathbb{R}^{p_1\times\cdots\times p_K}$, and so
-\begin{align}
-\diverge(t(\mathcal{X})) &= \sum_{\bf i} \langle\Delta^{\bf i}, df[\Delta^{\bf i}]\rangle \nonumber\\
-&= \sum_{\bf i} \langle(U_1^T,\ldots,U_K^T)\cdot\Delta^{\bf i}, (U_1^T,\ldots,U_K^T)\cdot df[\Delta^{\bf i}]\rangle\nonumber\\
-&= \sum_{\bf i} \langle E^{\bf i}, (U_1^T,\ldots,U_K^T)\cdot df[\Delta^{\bf i}]\rangle,\nonumber\\
-\label{equation:divergence.index}
-&= \sum_{\bf i} ((U_1^T,\ldots,U_K^T)\cdot df[\Delta^{\bf i}])_{[\mathbf{i}]},
-\end{align}
-where $\langle , \rangle$ is the usual Euclidean inner product. From the chain rule, we have:
-\begin{align*}
-df[\Delta^{\bf i}] = \sum_{k=1}^Kd\underline{U}_k[\Delta^{\bf i}] \cdot f(D) \cdot \mathcal{V} + \sum_{k=1}^K U \cdot df(\tilde{D})_k[\Delta^{\bf i}] \cdot \mathcal{V} + U \cdot f(D) \cdot d\mathcal{V}[\Delta^{\bf i}],
-\end{align*}
-where
-\begin{align*}
-&f(D) = (f^1(D_1),\ldots,f^K(D_K)) \text{ and}\\
-&df(\tilde{D})_k[\Delta^{\bf i}] = (f^1(D_1),\ldots,f^{k-1}(D_{k-1}),d(f^k \circ D_k)[\Delta^{\bf i}],f^{k+1}(D_{k+1}),\ldots,f^K(D_K)),
-\end{align*}
-where ``$\circ$'' now means composition. Hence,
-\begin{align}
-\label{equation:u.times.df}
-U^T \cdot df[\Delta^{\bf i}] = \sum_{k=1}^Kd\tilde{U}_k[\Delta^{\bf i}] \cdot f(D) \cdot \mathcal{V} + \sum_{k=1}^K df(\tilde{D})_k[\Delta^{\bf i}] \cdot \mathcal{V} + f(D) \cdot d\mathcal{V}[\Delta^{\bf i}],
-\end{align}
-where
-\begin{align}
-d\tilde{U}_k[\Delta^{\bf i}] = (I_{p_1},\ldots,I_{p_{k-1}},\Omega_{U_k}[\Delta^{\bf i}],I_{p_{k+1}},\ldots,I_{p_K}). \label{equation:U.tilde}
-\end{align}
+  Let
+  \begin{align*}
+    \Delta^{i_1,\ldots,i_K} = \Delta^{\bf i} = U_{1[:,i_1]} \circ \cdots \circ U_{K[:,i_K]},
+  \end{align*}
+  where $\circ$ is the outer product and $U_{k[:,i_k]}$ is the $i_k$th
+  column of $U_k$. Note that
+  \begin{align*}
+    (U_1^T,\ldots,U_K^T)\cdot\Delta^{\bf i} = E^{\bf i},
+  \end{align*}
+  where $E^{\bf i}$ is the $p_1\times\cdots\times p_K$ array with a
+  one in position $(i_1,\ldots,i_K)$ and zeros everywhere
+  else. Similar to the arguments of \cite{candes2013unbiased}, also
+  note that $\Delta^{\bf i}$ forms an orthonormal basis for
+  $\mathbb{R}^{p_1\times\cdots\times p_K}$, and so
+  \begin{align}
+    \diverge(t(\mathcal{X})) &= \sum_{\bf i} \langle\Delta^{\bf i}, df[\Delta^{\bf i}]\rangle \nonumber\\
+    &= \sum_{\bf i} \langle(U_1^T,\ldots,U_K^T)\cdot\Delta^{\bf i}, (U_1^T,\ldots,U_K^T)\cdot df[\Delta^{\bf i}]\rangle\nonumber\\
+    &= \sum_{\bf i} \langle E^{\bf i}, (U_1^T,\ldots,U_K^T)\cdot df[\Delta^{\bf i}]\rangle,\nonumber\\
+    \label{equation:divergence.index}
+    &= \sum_{\bf i} ((U_1^T,\ldots,U_K^T)\cdot df[\Delta^{\bf i}])_{[\mathbf{i}]},
+  \end{align}
+  where $\langle , \rangle$ is the usual Euclidean inner product. From
+  the chain rule, we have:
+  \begin{align*}
+    df[\Delta^{\bf i}] = \sum_{k=1}^Kd\underline{U}_k[\Delta^{\bf i}] \cdot f(D) \cdot \mathcal{V} + \sum_{k=1}^K U \cdot df(\tilde{D})_k[\Delta^{\bf i}] \cdot \mathcal{V} + U \cdot f(D) \cdot d\mathcal{V}[\Delta^{\bf i}],
+  \end{align*}
+  where
+  \begin{align*}
+    &f(D) = (f^1(D_1),\ldots,f^K(D_K)) \text{ and}\\
+    &df(\tilde{D})_k[\Delta^{\bf i}] = (f^1(D_1),\ldots,f^{k-1}(D_{k-1}),d(f^k \circ D_k)[\Delta^{\bf i}],f^{k+1}(D_{k+1}),\ldots,f^K(D_K)),
+  \end{align*}
+  where ``$\circ$'' now means composition. Hence,
+  \begin{align}
+    \label{equation:u.times.df}
+    U^T \cdot df[\Delta^{\bf i}] = \sum_{k=1}^Kd\tilde{U}_k[\Delta^{\bf i}] \cdot f(D) \cdot \mathcal{V} + \sum_{k=1}^K df(\tilde{D})_k[\Delta^{\bf i}] \cdot \mathcal{V} + f(D) \cdot d\mathcal{V}[\Delta^{\bf i}],
+  \end{align}
+  where
+  \begin{align}
+    d\tilde{U}_k[\Delta^{\bf i}] = (I_{p_1},\ldots,I_{p_{k-1}},\Omega_{U_k}[\Delta^{\bf i}],I_{p_{k+1}},\ldots,I_{p_K}). \label{equation:U.tilde}
+  \end{align}
 
-The outline of the derivation of the divergence is as follows. The ultimate goal is to obtain the $(i_1,\ldots,i_K)$th element of $U^T \cdot df[\Delta^{\bf i}]$ in (\ref{equation:u.times.df}) and plug that into (\ref{equation:divergence.index}). We will first calculate all of the differentials that are in (\ref{equation:u.times.df}), then we will determine the $(i_1,\ldots,i_K)$th element of $U^T \cdot df[\Delta^{\bf i}]$. Then we will simplify (\ref{equation:divergence.index}). These latter two steps may be found in Appendix \ref{sec:simp.div}.
+  The outline of the derivation of the divergence is as follows. The
+  ultimate goal is to obtain the $(i_1,\ldots,i_K)$th element of $U^T
+  \cdot df[\Delta^{\bf i}]$ in (\ref{equation:u.times.df}) and plug
+  that into (\ref{equation:divergence.index}). We will first calculate
+  all of the differentials that are in (\ref{equation:u.times.df}),
+  then we will determine the $(i_1,\ldots,i_K)$th element of $U^T
+  \cdot df[\Delta^{\bf i}]$. Then we will simplify
+  (\ref{equation:divergence.index}). These latter two steps may be
+  found in Appendix \ref{sec:simp.div}.
 
-We begin with the differentials. From (\ref{equation:d.D}), we have
-\begin{align}
-d\sigma_j^k[\Delta^{\bf i}] &= (U_k^T \Delta_{(k)}^{\bf i} U_{-k} S_{(k)}^T D_k^{-1})_{[j,j]} \nonumber\\
-&= (E^{\bf i}_{(k)} S_{(k)}^T D_k^{-1})_{[j,j]}\nonumber\\
-\label{equation:d.sigma.i}
-&= 1(j = i_k)S_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}/\sigma_j^k.
-\end{align}
-This is since $E_{(k)}^{\bf i}S_{(k)}^T \in \mathbb{R}^{p_k\times p_k}$ such that
-\begin{align}
-\left(E_{(k)}^{\bf i}S_{(k)}^T\right)_{[\ell,j]} = \label{equation:Ek.Sk}
-\begin{cases}
-0 &\text{if } \ell \neq i_k\\
-S_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]} &\text{if } \ell = i_k.
-\end{cases}
-\end{align}
-Similarly, from (\ref{equation:d.omega}), we have
-\begin{align}
-&\Omega_{U_k}[\Delta^{\bf i}]_{[\ell, j]} \nonumber\\
-&= -1(\ell\neq j)\left[\sigma_j^k(U_k^T\Delta_{(k)}U_{-k}S_{(k)}^TD_k^{-1})_{[\ell,j]} + \sigma_{\ell}^k(U_k^T\Delta_{(k)}U_{-k}S_{(k)}^TD_k^{-1})_{[j,\ell]}\right]/((\sigma_{\ell}^k)^2 - (\sigma_j^k)^2)\nonumber\\
-&= -1(\ell\neq j)\left[\sigma_j^k(E^{\bf i}_{(k)}S_{(k)}^TD_k^{-1})_{[\ell,j]} + \sigma_{\ell}^k(E^{\bf i}_{(k)}S_{(k)}^TD_k^{-1})_{[j,\ell]}\right]/ ((\sigma_{\ell}^k)^2 - (\sigma_j^k)^2)\nonumber\\
-\label{equation:d.omega.i}
-&= -1(\ell\neq j)\left[S_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}1(\ell = i_k) + S_{[i_1,\ldots,i_{k-1},\ell,i_{k+1},\ldots,i_K]}1(j=i_k)\right]/((\sigma_{\ell}^k)^2 - (\sigma_j^k)^2).
-\end{align}
-Also, from the chain rule, we have that
-\begin{align}
-d(f^k_j \circ \sigma^k_j)[\Delta^{\bf i}] &= \left(\frac{d}{d\sigma_j^k}f_j^k(\sigma_j^k)\right)d\sigma_j^k[\Delta^{\bf i}]\nonumber\\
-\label{equation:d.comp}
-&= \delta_{j,i_k}\left(\frac{d}{d\sigma_j^k}f_j^k(\sigma_j^k)\right)S_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}/\sigma_j^k.
-\end{align}
+  We begin with the differentials. From (\ref{equation:d.D}), we have
+  \begin{align}
+    d\sigma_j^k[\Delta^{\bf i}] &= (U_k^T \Delta_{(k)}^{\bf i} U_{-k} S_{(k)}^T D_k^{-1})_{[j,j]} \nonumber\\
+    &= (E^{\bf i}_{(k)} S_{(k)}^T D_k^{-1})_{[j,j]}\nonumber\\
+    \label{equation:d.sigma.i}
+    &= 1(j = i_k)S_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}/\sigma_j^k.
+  \end{align}
+  This is since $E_{(k)}^{\bf i}S_{(k)}^T \in \mathbb{R}^{p_k\times p_k}$ such that
+  \begin{align}
+    \left(E_{(k)}^{\bf i}S_{(k)}^T\right)_{[\ell,j]} = \label{equation:Ek.Sk}
+    \begin{cases}
+      0 &\text{if } \ell \neq i_k\\
+      S_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]} &\text{if } \ell = i_k.
+    \end{cases}
+  \end{align}
+  Similarly, from (\ref{equation:d.omega}), we have
+  \begin{align}
+    &\Omega_{U_k}[\Delta^{\bf i}]_{[\ell, j]} \nonumber\\
+    &= -1(\ell\neq j)\left[\sigma_j^k(U_k^T\Delta_{(k)}U_{-k}S_{(k)}^TD_k^{-1})_{[\ell,j]} + \sigma_{\ell}^k(U_k^T\Delta_{(k)}U_{-k}S_{(k)}^TD_k^{-1})_{[j,\ell]}\right]/((\sigma_{\ell}^k)^2 - (\sigma_j^k)^2)\nonumber\\
+    &= -1(\ell\neq j)\left[\sigma_j^k(E^{\bf i}_{(k)}S_{(k)}^TD_k^{-1})_{[\ell,j]} + \sigma_{\ell}^k(E^{\bf i}_{(k)}S_{(k)}^TD_k^{-1})_{[j,\ell]}\right]/ ((\sigma_{\ell}^k)^2 - (\sigma_j^k)^2)\nonumber\\
+    \label{equation:d.omega.i}
+    &= -1(\ell\neq j)\left[S_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}1(\ell = i_k) + S_{[i_1,\ldots,i_{k-1},\ell,i_{k+1},\ldots,i_K]}1(j=i_k)\right]/((\sigma_{\ell}^k)^2 - (\sigma_j^k)^2).
+  \end{align}
+  Also, from the chain rule, we have that
+  \begin{align}
+    d(f^k_j \circ \sigma^k_j)[\Delta^{\bf i}] &= \left(\frac{d}{d\sigma_j^k}f_j^k(\sigma_j^k)\right)d\sigma_j^k[\Delta^{\bf i}]\nonumber\\
+    \label{equation:d.comp}
+    &= \delta_{j,i_k}\left(\frac{d}{d\sigma_j^k}f_j^k(\sigma_j^k)\right)S_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}/\sigma_j^k.
+  \end{align}
 
-We have just completed all of the calculus necessary to obtain the divergence, and the remainder of the calculation is simplification. That is, we can use equations (\ref{equation:d.V}), (\ref{equation:divergence.index}), (\ref{equation:u.times.df}), (\ref{equation:d.sigma.i}), (\ref{equation:d.omega.i}), and (\ref{equation:d.comp}) to calculate a closed-form expression for the divergence. This simplification is relegated to Appendix \ref{sec:simp.div}.
+  We have just completed all of the calculus necessary to obtain the
+  divergence, and the remainder of the calculation is
+  simplification. That is, we can use equations (\ref{equation:d.V}),
+  (\ref{equation:divergence.index}), (\ref{equation:u.times.df}),
+  (\ref{equation:d.sigma.i}), (\ref{equation:d.omega.i}), and
+  (\ref{equation:d.comp}) to calculate a closed-form expression for
+  the divergence. This simplification is relegated to Appendix
+  \ref{sec:simp.div}.
 \end{proof}
 
-%Note that this form of the divergence is beneficial for numerical stability reasons because we can calculate first
-%$f^k(D_k)D_k^{-1}$ for $k = 1,\ldots,K$, then Tucker product this list
-%of matrices with an array that is a sum of elements that should not get
-%too small (since they only contain ratios of $\mathcal{S}^2$ and the
-%mode-specific singular values).
+% Note that this form of the divergence is beneficial for numerical stability reasons because we can calculate first
+% $f^k(D_k)D_k^{-1}$ for $k = 1,\ldots,K$, then Tucker product this list
+% of matrices with an array that is a sum of elements that should not get
+% too small (since they only contain ratios of $\mathcal{S}^2$ and the
+% mode-specific singular values).
 
 
-We now present the formula for the  SURE for all higher-order spectral estimators of the form (\ref{equation:ho.spect.est}):
+We now present the formula for the SURE for all higher-order spectral
+estimators of the form (\ref{equation:ho.spect.est}):
 \begin{theorem}[SURE for (\ref{equation:ho.spect.est})]
-Under the model (\ref{equation:normal.model}), suppose $t(\cdot)$ in (\ref{equation:ho.spect.est}) is almost differentiable and for which (\ref{equation:int.condition}) holds. Then
-\begin{align}
-\sure(t) =  ||t(\mathcal{X}) - \mathcal{X}||^2 + 2\tau^2\sumo\left(f(D) \cdot D^{-1}\cdot \mathcal{C} + \sum_{k=1}^KH_k \cdot \mathcal{S}^2\right) - p\tau^2. \label{equation:complete.sure}
-\end{align}
+  Under the model (\ref{equation:normal.model}), suppose $t(\cdot)$ in
+  (\ref{equation:ho.spect.est}) is almost differentiable and for which
+  (\ref{equation:int.condition}) holds. Then
+  \begin{align}
+    \sure(t) =  ||t(\mathcal{X}) - \mathcal{X}||^2 + 2\tau^2\sumo\left(f(D) \cdot D^{-1}\cdot \mathcal{C} + \sum_{k=1}^KH_k \cdot \mathcal{S}^2\right) - p\tau^2. \label{equation:complete.sure}
+  \end{align}
 \end{theorem}
 
-This SURE formula is applicable for all shrinkage functions of the form (\ref{equation:ho.spect.est}) where $f^k(D_k) = \diag(f_1^k(\sigma_1^k),\ldots,f_{p_k}^k(\sigma_{p_k}^k))$. For such shrinkage functions, the shrinkage being applied to each singular value is a function only of that singular value. However, it is possible to construct estimators which use all of the mode $k$ singular values to shrink each mode $k$ singular value, e.g.\ if we were to use a shrinkage function analogous to those of (\ref{equation:stein}) or (\ref{equation:improved.em}). For such estimators, we prove in Appendix \ref{sec:gen.spec.func} that the form of the divergence is very similar as in (\ref{equation:divergence.final}). The only difference is that one replaces $\frac{d}{d\sigma_{i_k}^k}f_{i_k}^k(\sigma_{i_k}^k)$ with $\frac{d}{d\sigma_{i_k}^k}f_{i_k}^k(\sigma_{1}^k,\ldots,\sigma_{p_k}^k)$. That is, for such shrinkage functions, $df^k(D_k)$ is a diagonal matrix containing only the diagonal of the Jacobian matrix of the transformation $\diag(D_k) \mapsto \diag(f(D_k))$.
-
-
-
+This SURE formula is applicable for all shrinkage functions of the
+form (\ref{equation:ho.spect.est}) where $f^k(D_k) =
+\diag(f_1^k(\sigma_1^k),\ldots,f_{p_k}^k(\sigma_{p_k}^k))$. For such
+shrinkage functions, the shrinkage being applied to each singular
+value is a function only of that singular value. However, it is
+possible to construct estimators which use all of the mode $k$
+singular values to shrink each mode $k$ singular value, e.g.\ if we
+were to use a shrinkage function analogous to those of
+(\ref{equation:stein}) or (\ref{equation:improved.em}). For such
+estimators, we prove in Appendix \ref{sec:gen.spec.func} that the form
+of the divergence is very similar as in
+(\ref{equation:divergence.final}). The only difference is that one
+replaces $\frac{d}{d\sigma_{i_k}^k}f_{i_k}^k(\sigma_{i_k}^k)$ with
+$\frac{d}{d\sigma_{i_k}^k}f_{i_k}^k(\sigma_{1}^k,\ldots,\sigma_{p_k}^k)$. That
+is, for such shrinkage functions, $df^k(D_k)$ is a diagonal matrix
+containing only the diagonal of the Jacobian matrix of the
+transformation $\diag(D_k) \mapsto \diag(f(D_k))$.

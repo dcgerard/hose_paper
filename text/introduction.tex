@@ -1,117 +1,211 @@
 \section{Introduction}
 \label{sec:intro}
 
-Tensor data arise in fields as diverse as relational data \citep{hoff2014multilinear}, neuroimaging \citep{zhang2014tensor,li2015parsimonious}, psychometrics \citep{kiers2001three}, chemometrics \citep{smilde2005multi,bro2006review}, signal processing \citep{cichockitensor}, and machine learning \citep{tao2005supervised}, among others \citep{kroonenberg2008applied}.
-% In particular, tensor decompositions \citep{kolda2009tensor}, as a way of identifying tensor structure, are being applied to each of these fields.
-A tensor $\mathcal{X} \in \mathbb{R}^{p_1\times\cdots\times p_K}$ with $p_k \in \{1,2,\ldots\}$ of order $K$ is a $K$-way array where the elements $\mathcal{X}_{[i_1,\ldots,i_K]}$ are indexed by $i_k \in \{1,2,\ldots,p_k\}$ for $k = 1,\ldots,K$. For example, a movie can be expressed as a tensor, where element $\mathcal{X}_{[i,j,t]}$ of the tensor is the intensity of pixel $(i,j)$ at frame $t$ (Figure \ref{fig:mario.movie}). 
+Tensor data arise in fields as diverse as relational data
+\citep{hoff2014multilinear}, neuroimaging
+\citep{zhang2014tensor,li2015parsimonious}, psychometrics
+\citep{kiers2001three}, chemometrics
+\citep{smilde2005multi,bro2006review}, signal processing
+\citep{cichockitensor}, and machine learning
+\citep{tao2005supervised}, among others
+\citep{kroonenberg2008applied}.
+% In particular, tensor decompositions \citep{kolda2009tensor}, as a
+% way of identifying tensor structure, are being applied to each of
+% these fields.
+A tensor $\mathcal{X} \in \mathbb{R}^{p_1\times\cdots\times p_K}$ with
+$p_k \in \{1,2,\ldots\}$ of order $K$ is a $K$-way array where the
+elements $\mathcal{X}_{[i_1,\ldots,i_K]}$ are indexed by $i_k \in
+\{1,2,\ldots,p_k\}$ for $k = 1,\ldots,K$. For example, a multivariate
+relational dataset can be expressed as a tensor, where element
+$\mathcal{X}_{[i,j,t]}$ of the tensor is the $t$th relation between
+actors $i$ and $j$.
 
-Often, a tensor is corrupted by noise (Figure \ref{fig:mario.movie.noise}). The model we consider for this is:
+Often, a tensor is corrupted by noise. The model we consider for this
+is:
 \begin{align}
   \label{equation:normal.model}
   \mathcal{X} = \Theta + \mathcal{E},\text{  } \mathcal{E}_{[i_1,\ldots,i_K]} \sim N(0,\tau^2) \text{ independent for } i_k = 1,\ldots,p_k, \text{ and } k = 1,\ldots,K,
 \end{align}
-where $\Theta \in \mathbb{R}^{p_1\times\cdots\times p_K}$ is the signal (Figure \ref{fig:mario.movie}) and $\mathcal{E} \in \mathbb{R}^{p_1\times\cdots\times p_K}$ is the additive measurement error or noise. The performance of an estimator $t(\mathcal{X})\in \mathbb{R}^{p_1\times\cdots\times p_K}$ can be evaluated by statistical risk under quadratic loss, i.e.\  mean squared error (MSE):
+where $\Theta \in \mathbb{R}^{p_1\times\cdots\times p_K}$ is the
+signal and $\mathcal{E} \in \mathbb{R}^{p_1\times\cdots\times p_K}$ is
+the additive measurement error or noise. The performance of an
+estimator $t(\mathcal{X})\in \mathbb{R}^{p_1\times\cdots\times p_K}$
+can be evaluated by statistical risk under quadratic loss, i.e.\ mean
+squared error (MSE):
 \begin{align}
   \label{equation:mse}
   \mse(t(\mathcal{X})) = E_{\Theta}[||\Theta - t(\mathcal{X})||^2] = \sum_{\mathbf{i}} E_{\Theta}[(\Theta_{[\mathbf{i}]} - t(\mathcal{X})_{[\mathbf{i}]})^2],
 \end{align}
-where $\mathbf{i} = (i_1,\ldots,i_K)$ is a $K$-tuple of tensor indices.
+where $\mathbf{i} = (i_1,\ldots,i_K)$ is a $K$-tuple of tensor
+indices.
 
-\begin{figure*}
-\begin{center}
-\includegraphics{./fig/mario_mean_gif}
-\caption{Frames of a movie \citep{marioimage}.}
-\label{fig:mario.movie}
-\end{center}
-\end{figure*}
+In the matrix variate case, $X \in \mathbb{R}^{p \times n}$, an
+investigator often believes that the mean is well approximated by a
+low rank matrix. \textbf{EXTEND}
 
-\begin{figure*}
-\begin{center}
-\includegraphics{./fig/mario_noise_gif}
-\caption{Frames of a noisy movie \citep{marioimage}.}
-\label{fig:mario.movie.noise}
-\end{center}
-\end{figure*}
+There has been much work on ``denoising'' (or mean estimation) in
+matrix variate data by using our knowledge that the mean has
+approximately low rank. A typical estimation scheme begins by
+computing the singular value decomposition (SVD) of $X$:
+\begin{align}
+  \label{equation:svd}
+  X = UDV^T,
+\end{align}
+where, in the case $n \geq p$, $U \in \mathbb{R}^{p \times p}$ is
+orthogonal, $D = \diag(\sigma_1,\ldots,\sigma_p)$ with $\sigma_1 \geq
+\ldots\geq \sigma_p \geq 0$, and $V \in \mathbb{R}^{n \times p}$
+contains orthonormal columns. The columns of $U$ and $V$ are,
+respectively, the left and right singular vectors of $X$ and the
+diagonal elements of $D$ are the singular values. A key property of
+the SVD is that the number of non-zero singular values of $X$ is
+precisely the rank of $X$. One widely studied approach to estimating
+$\Theta$ when it is assumed that $\Theta$ has nearly low rank is to
+shrink the singular values of $X$ towards $0$ while keeping the
+singular vectors unchanged, thereby inducing an (approximately) low
+rank estimate. The resulting ``spectral'' estimator $t(\mathcal{X})$
+of $\Theta$ then takes the form $t(\mathcal{X}) = Uf(D)V^T$ where
+$f(D) = \diag(f_1(\sigma_1),\ldots,f_K(\sigma_K))$ and each
+$f_i(\cdot)$ shrinks the singular values towards $0$. These estimators
+are orthogonally equivariant, meaning that $t(WXZ^T) = Wt(X)Z^T$ for
+orthogonal matrices $W,Z$ \citep{shabalin2013reconstruction}.
 
- In the matrix variate case, $X \in \mathbb{R}^{p \times n}$, an investigator often believes that the mean is well approximated by a low rank matrix. Consider the ``Casorati'' matrix of a movie, where column $t$ contains the vectorized image of frame $t$. Since adjacent frames usually contain only minor changes, the columns of this Casorati matrix exhibit strong co-linearity. It would be reasonable, then, to assume that the Casorati matrix is well approximated by a low rank matrix.
-
- There has been much work on ``denoising'' (or mean estimation) in matrix variate data by using our knowledge that the mean has approximately low rank. A typical estimation scheme begins by computing the singular value decomposition (SVD) of $X$:
-  \begin{align}
-    \label{equation:svd}
-    X = UDV^T,
-  \end{align}
-  where, in the case $n \geq p$, $U \in \mathbb{R}^{p \times p}$ is orthogonal, $D = \diag(\sigma_1,\ldots,\sigma_p)$ with $\sigma_1 \geq \ldots\geq \sigma_p \geq 0$, and $V \in \mathbb{R}^{n \times p}$ contains orthonormal columns. The columns of $U$ and $V$ are, respectively, the left and right singular vectors of $X$ and the diagonal elements of $D$ are the singular values. A key property of the SVD is that the number of non-zero singular values of $X$ is precisely the rank of $X$. One widely studied approach to estimating $\Theta$ when it is assumed that $\Theta$ has nearly low rank is to shrink the singular values of $X$ towards $0$ while keeping the singular vectors unchanged, thereby inducing an (approximately) low rank estimate. The resulting ``spectral'' estimator $t(\mathcal{X})$ of $\Theta$ then takes the form $t(\mathcal{X}) = Uf(D)V^T$ where $f(D) = \diag(f_1(\sigma_1),\ldots,f_K(\sigma_K))$ and each $f_i(\cdot)$ shrinks the singular values towards $0$. These estimators are orthogonally equivariant, meaning that $t(WXZ^T) = Wt(X)Z^T$ for orthogonal matrices $W,Z$ \citep{shabalin2013reconstruction}.
-
- Early work on singular value shrinkage estimation from a
- non-statistical perspective began with
- \cite{eckart1936approximation}, where they proved that the best rank
- $r$ approximation to the data matrix $X \in \mathbb{R}^{p \times n}$
- is found with the shrinkage function:
-  \begin{align}
-    \label{equation:eckart.young}
-    f_i(\sigma_i) = \sigma_i 1(i \leq r),
-  \end{align}
-  where $1(\cdot)$ is the indicator function. We call (\ref{equation:eckart.young}) the truncation estimator. However, approximating
-  the data $X$ well is not the same as estimating the underlying
-  signal $\Theta$ well. In terms of estimating $\Theta$, the matrix $X$ is unbiased, minimax, and the maximum likelihood estimator under normally distributed errors. However, it is well known that shrinkage estimators, such at that of \cite{stein1981estimation} can uniformly dominate $X$ in terms of risk. This
-  seminal shrinkage estimator, in the context of matrix estimation, is given by
-  \begin{align}
-    \label{equation:stein}
-    f_i(\sigma_i) = \left(1 - \frac{\lambda}{\sum_{i = 1}^p\sigma_i^2}\right)\sigma_i.
-  \end{align}
-  For data that exhibit associations between the rows and/or columns of the mean matrix, the estimator of \cite{efron1972empirical}, given by
-  \begin{align}
-    \label{equation:efron.morris}
-    f_i(\sigma_i) = \sigma_i - \frac{\lambda}{\sigma_i},
-  \end{align}
- was introduced and results in different amounts of shrinkage for each singular value.
-\cite{efron1976multivariate} improved upon this estimator with a generalization of both (\ref{equation:stein}) and (\ref{equation:efron.morris}), given by
+Early work on singular value shrinkage estimation from a
+non-statistical perspective began with \cite{eckart1936approximation},
+where they proved that the best rank $r$ approximation to the data
+matrix $X \in \mathbb{R}^{p \times n}$ is found with the shrinkage
+function:
+\begin{align}
+  \label{equation:eckart.young}
+  f_i(\sigma_i) = \sigma_i 1(i \leq r),
+\end{align}
+where $1(\cdot)$ is the indicator function. We call
+(\ref{equation:eckart.young}) the truncation estimator. However,
+approximating the data $X$ well is not the same as estimating the
+underlying signal $\Theta$ well. In terms of estimating $\Theta$, the
+matrix $X$ is unbiased, minimax, and the maximum likelihood estimator
+under normally distributed errors. However, it is well known that
+shrinkage estimators, such at that of \cite{stein1981estimation} can
+uniformly dominate $X$ in terms of risk. This seminal shrinkage
+estimator, in the context of matrix estimation, is given by
+\begin{align}
+  \label{equation:stein}
+  f_i(\sigma_i) = \left(1 - \frac{\lambda}{\sum_{i = 1}^p\sigma_i^2}\right)\sigma_i.
+\end{align}
+For data that exhibit associations between the rows and/or columns of
+the mean matrix, the estimator of \cite{efron1972empirical}, given by
+\begin{align}
+  \label{equation:efron.morris}
+  f_i(\sigma_i) = \sigma_i - \frac{\lambda}{\sigma_i},
+\end{align}
+was introduced and results in different amounts of shrinkage for each
+singular value.  \cite{efron1976multivariate} improved upon this
+estimator with a generalization of both (\ref{equation:stein}) and
+(\ref{equation:efron.morris}), given by
 \begin{align}
   \label{equation:improved.em}
   f_i(\sigma_i) = \left(1 - \frac{\gamma}{\sum_{i = 1}^p\sigma_i^2}\right)\sigma_i - \frac{\lambda}{\sigma_i}.
 \end{align}
 
-More recent work has focused on estimators whose functions $f_i(\cdot)$ induce sparsity in the singular values, which may be more appropriate than (\ref{equation:stein}), (\ref{equation:efron.morris}), and (\ref{equation:improved.em})  in cases where the true signal itself has (approximately) low rank. Motivated by penalized maximum likelihood estimation, the hard-thresholding estimator
+More recent work has focused on estimators whose functions
+$f_i(\cdot)$ induce sparsity in the singular values, which may be more
+appropriate than (\ref{equation:stein}),
+(\ref{equation:efron.morris}), and (\ref{equation:improved.em}) in
+cases where the true signal itself has (approximately) low
+rank. Motivated by penalized maximum likelihood estimation, the
+hard-thresholding estimator
 \begin{align}
-\label{equation:hard.thresholding}
-f_i(\sigma_i) = \sigma_i 1(\sigma_i \geq \lambda)
+  \label{equation:hard.thresholding}
+  f_i(\sigma_i) = \sigma_i 1(\sigma_i \geq \lambda)
 \end{align}
 and the soft-thresholding estimator
 \begin{align}
-\label{equation:soft.thresholding}
-f_i(\sigma_i) = (\sigma_i - \lambda)_+
+  \label{equation:soft.thresholding}
+  f_i(\sigma_i) = (\sigma_i - \lambda)_+
 \end{align}
- were introduced \citep[for example]{candes2013unbiased}. Here, $(y)_+ = \max(y,0)$ is the ``positive part'' function. A clever shrinkage function that includes (\ref{equation:hard.thresholding}), (\ref{equation:soft.thresholding}), and a truncated version of (\ref{equation:efron.morris}) \citep{verbanck2015regularised} as special cases is that of \cite{josse2015adaptive}:
+were introduced \citep[for example]{candes2013unbiased}. Here, $(y)_+
+= \max(y,0)$ is the ``positive part'' function. A clever shrinkage
+function that includes (\ref{equation:hard.thresholding}),
+(\ref{equation:soft.thresholding}), and a truncated version of
+(\ref{equation:efron.morris}) \citep{verbanck2015regularised} as
+special cases is that of \cite{josse2015adaptive}:
 \begin{align}
-\label{equation:josse.sardy.est}
-f_i(\sigma_i) = \sigma_i\left(1 - \frac{\lambda^{\gamma}}{\sigma_i^{\gamma}}\right)_+.
+  \label{equation:josse.sardy.est}
+  f_i(\sigma_i) = \sigma_i\left(1 - \frac{\lambda^{\gamma}}{\sigma_i^{\gamma}}\right)_+.
 \end{align}
-This estimator was inspired by the adaptive LASSO \citep{zou2006adaptive}. A variety of other shrinkage estimators have also been developed \citep{nadakuditi2014optshrink,shabalin2013reconstruction}.
+This estimator was inspired by the adaptive LASSO
+\citep{zou2006adaptive}. A variety of other shrinkage estimators have
+also been developed
+\citep{nadakuditi2014optshrink,shabalin2013reconstruction}.
 
-All of these estimators are specific to matrix-variate data. If one were to apply these matrix methods to a tensor, one would first convert the tensor into a matrix, for example, by constructing the Casorati matrix. For a $K$-dimensional tensor, such ``matricization'' destroys the indexing structure along all but one of the dimensions. This may be detrimental to estimation if, in addition to a data set having approximately low rank, it also has approximately low \emph{multilinear} rank (see Section \ref{sec:tensor}), that is, ``matricizing'' along each index set, or ``mode'', results in a low rank matrix. For a movie data set, this might occur if horizontally or vertically adjacent pixels tend to contain similar intensities.
+All of these estimators are specific to matrix-variate data. If one
+were to apply these matrix methods to a tensor, one would first
+convert the tensor into a matrix. For a $K$-dimensional tensor, such
+``matricization'' destroys the indexing structure along all but one of
+the dimensions. This may be detrimental to estimation if, in addition
+to a data set having approximately low rank, it also has approximately
+low \emph{multilinear} rank (see Section \ref{sec:tensor}), that is,
+``matricizing'' along each index set, or ``mode'', results in a low
+rank matrix.
 
-Figure \ref{fig:example.svs} illustrates an example of this phenomenon. This figure plots the first sixteen singular values for each of the three different matricizations of the Mario tensor of Figure \ref{fig:mario.movie} (see Section \ref{sec:tensor}). If we were only matricizing along the time dimension, as we do when forming the Casorati matrix, we would only observe the dotted lines, which seem to suggest the data have approximately rank 1. However, the vertical and horizontal dimensions of the images also seem to have approximately low rank, as evidenced by the solid and dashed lines. Shrinking the singular values along these additional modes may also improve estimation.
+\textbf{New data showing low multilinear rank. Show scree plot for
+  each mode.} If we were only matricizing along the time dimension we
+would only observe the dotted lines, which seem to suggest the data
+have approximately rank 1. However, the vertical and horizontal
+dimensions also seem to have approximately low rank, as evidenced by
+the solid and dashed lines. Shrinking the singular values along these
+additional modes may also improve estimation.
 
-\begin{figure}
-\begin{center}
-%%\includegraphics{low_multilinear_rank}
-\includegraphics{./fig/low_mario_rank}
-\caption{Mode specific singular values of the Mario movie of Figure \ref{fig:mario.movie}.}
-\label{fig:example.svs}
-\end{center}
-%\caption{Mode specific singular values of a tensor that has full mode 1 rank but low mode 2 and mode 3 rank (left), and the mode specific singular values of the Mario movie of Figure \ref{fig:mario.movie} (right).}
-\end{figure}
-
-%%In general, having low rank along one mode does not imply having low rank along all modes. It is possible to have different mode-specific ranks, and possible to shrink toward low multilinear rank. For example, in the left plot of Figure \ref{fig:mario.movie} we simulated a $10 \times 10 \times 10$ dimensional tensor data set that contains full rank along the first mode and low rank along modes 2 and 3. If we were only to observe the first mode matrix unfolding, then we would not be aware of the low rank structure, when in fact there is extremely low multilinear rank structure.
-
-
-In this article, we introduce a family of estimators that shrink tensor-valued data towards having (approximately) low multilinear rank. We perform this shrinkage on a reparameterization of the higher-order singular value decomposition (HOSVD) of \cite{de2000multilinear}, where we shrink the mode-specific singular values of the data tensor towards zero. We consider classes of such ``higher-order spectral estimators'', where a class is defined by a mode-specific shrinkage function indexed by a tuning parameter. We propose to adaptively select the tuning parameters by minimization of an unbiased estimate of the risk.
-
-
-%%Shrinkage estimators often contain tuning parameters whose selection is difficult process. In the case of matrix spectral estimators, others have chosen the amount of shrinkage by minimax considerations \citep{efron1972empirical,stein1981estimation}, cross-validation \citep{bro2008cross,owen2009bi,josse2012selecting}, asymptotic considerations \citep{gavish2014optimalhard,gavish2014optimal}, and recently, by minimizing an unbiased estimate of the MSE \citep{candes2013unbiased,josse2015adaptive}. For our second contribution, we extend this last method to the tensor case by deriving Stein's unbiased risk estimate (SURE) for higher-order spectral estimators.
-
-  Our paper is organized as follows. In Section \ref{sec:tensor}, we introduce tensors and the HOSVD. We then present how one may define functions that shrink the mode-specific singular values of the HOSVD. In particular, we present two specific estimators that shrink the data tensor towards having (approximately) low multilinear rank and provide some discussion on the intuition behind these estimators. In Section \ref{sec:sure_form}, we review Stein's unbiased risk estimates (SURE), then derive the SURE for a broad class of higher-order spectral estimators. In Section \ref{sec:simulation} we present simulations demonstrating that (1) tensor specific methods perform better when the mean tensor has approximately low multilinear rank; (2) when the mean tensor has low multilinear rank our methods accurately estimate the multilinear rank; and (3) tensor specific methods perform competitively when the signal tensor does not have approximately low multilinear rank. We also compare the performance of our estimators with estimators that do not take into account the tensor indexing on the Mario movie in Figure \ref{fig:mario.movie.noise}. In Section \ref{sec:NBA} we illustrate the use of these methods in an application to multivariate relational data. We finish with a discussion in Section \ref{sec:discussion}.
+%% In general, having low rank along one mode does not imply having
+%% low rank along all modes. It is possible to have different
+%% mode-specific ranks, and possible to shrink toward low multilinear
+%% rank. For example, in the left plot of Figure \ref{fig:mario.movie}
+%% we simulated a $10 \times 10 \times 10$ dimensional tensor data set
+%% that contains full rank along the first mode and low rank along
+%% modes 2 and 3. If we were only to observe the first mode matrix
+%% unfolding, then we would not be aware of the low rank structure,
+%% when in fact there is extremely low multilinear rank structure.
 
 
+In this article, we introduce a family of estimators that shrink
+tensor-valued data towards having (approximately) low multilinear
+rank. We perform this shrinkage on a reparameterization of the
+higher-order singular value decomposition (HOSVD) of
+\cite{de2000multilinear}, where we shrink the mode-specific singular
+values of the data tensor towards zero. We consider classes of such
+``higher-order spectral estimators'', where a class is defined by a
+mode-specific shrinkage function indexed by a tuning parameter. We
+propose to adaptively select the tuning parameters by minimization of
+an unbiased estimate of the risk.
 
 
+%% Shrinkage estimators often contain tuning parameters whose
+%% selection is difficult process. In the case of matrix spectral
+%% estimators, others have chosen the amount of shrinkage by minimax
+%% considerations \citep{efron1972empirical,stein1981estimation},
+%% cross-validation
+%% \citep{bro2008cross,owen2009bi,josse2012selecting}, asymptotic
+%% considerations \citep{gavish2014optimalhard,gavish2014optimal}, and
+%% recently, by minimizing an unbiased estimate of the MSE
+%% \citep{candes2013unbiased,josse2015adaptive}. For our second
+%% contribution, we extend this last method to the tensor case by
+%% deriving Stein's unbiased risk estimate (SURE) for higher-order
+%% spectral estimators.
+
+Our paper is organized as follows. In Section \ref{sec:tensor}, we
+introduce tensors and the HOSVD. We then present how one may define
+functions that shrink the mode-specific singular values of the
+HOSVD. In particular, we present two specific estimators that shrink
+the data tensor towards having (approximately) low multilinear rank
+and provide some discussion on the intuition behind these
+estimators. In Section \ref{sec:sure_form}, we review Stein's unbiased
+risk estimates (SURE), then derive the SURE for a broad class of
+higher-order spectral estimators. In Section \ref{sec:simulation} we
+present simulations demonstrating that (1) tensor specific methods
+perform better when the mean tensor has approximately low multilinear
+rank; (2) when the mean tensor has low multilinear rank our methods
+accurately estimate the multilinear rank; and (3) tensor specific
+methods perform competitively when the signal tensor does not have
+approximately low multilinear rank. In Section \ref{sec:NBA} we
+illustrate the use of these methods in an application to multivariate
+relational data. We finish with a discussion in Section
+\ref{sec:discussion}.
