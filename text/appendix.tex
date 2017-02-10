@@ -106,52 +106,18 @@ That is,
   \mathcal{C}_{[{\bf i}]} =  1 + \sum_{k=1}^K \sum_{j = 1, j\neq i_k}^{p_k} \frac{\mathcal{S}_{[i_1,\ldots,i_{k-1},j,i_{k+1},\ldots,i_K]}^2}{(\sigma_{i_k}^k)^2 - (\sigma_{j}^k)^2} - \mathcal{S}_{\bf [i]}^2\sum_{k=1}^K\left( \frac{1}{(\sigma_{i_k}^k)^2} + \sum_{m=1,m\neq i_k}^{p_k}\frac{1}{(\sigma_m^k)^2 - (\sigma_{i_k}^k)^2}  \right).
 \end{align}
 
-\section{Newton step for optimization}
-Let $f_{\mathbf{i}} = \prod_{k=1}^Kf_{i_k}^k(\sigma_{i_k}^k)$ and
+\section{Details of optimization}
+We now provide some brief details on our optimization strategy when considering only the mode-specific soft-thresholding estimator. Let
+$f_{\mathbf{i}} = \prod_{k=1}^Kf_{i_k}^k(\sigma_{i_k}^k)$ and
 $\tilde{\sigma}_{\mathbf{i}} = \prod_{k=1}^K\sigma_{i_k}^k$. The SURE
 is equal to:
 \begin{align}
   &||f(D) \cdot D ^{-1} \cdot \mathcal{S} - \mathcal{S}||^2 + 2\tau^2 \sum_{\mathbf{i}} \left[\left(f(D) \cdot D^{-1} \cdot \mathcal{C}\right)_{[\mathbf{i}]} + \sum_{k=1}^K \left(H_k \cdot \mathcal{S}^2\right)_{[\mathbf{i}]}\right] - p \tau^2\\
   & = \sum_{\mathbf{i}}\left[\left(f_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]} - \mathcal{S}_{[\mathbf{i}]}\right)^2 + 2\tau^2f_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]} + 2\tau^2f_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{k=1}^K\frac{\frac{d}{d\sigma_{i_k}^k}f_{i_k}^k(\sigma_{i_k}^k)}{\sigma_{i_k}^kf_{i_k}^k(\sigma_{i_k}^k)}\right] - p\tau^2. \label{equation:sum.sure}
 \end{align}
-Considering only the mode-specific soft-thresholding estimator, we
-need to calculate the gradient given $\mathbf{i}$. One can show that
-if any $\lambda_k \geq \sigma_{i_k}^k$, then its contribution to the
-gradient is zero. Hence, given $\mathbf{i}$, assume that all
-$\lambda_k < \sigma_{i_k}^k$ for $k = 1,\ldots,K$. Then
-$(\sigma_{i_k}^k - \lambda_k)_+ = \sigma_{i_k}^k - \lambda_k$ and
-$\frac{d}{d\sigma_{i_k}^k}f_{i_k}^k(\sigma_{i_k}^k) = 1$. We have
-\begin{align}
-  &\frac{d}{d\lambda_k}\left[\left(cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]} - \mathcal{S}_{[\mathbf{i}]}\right)^2 + 2\tau^2cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]} + 2\tau^2cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{k=1}^K\frac{1}{\sigma_{i_k}^kf_{i_k}^k(\sigma_{i_k}^k)}\right]\nonumber\\
-  &=\frac{d}{d\lambda_k}\left[c^2f_{\mathbf{i}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 - 2 cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 + 2\tau^2cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]} + 2\tau^2cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{k=1}^K\frac{1}{\sigma_{i_k}^kf_{i_k}^k(\sigma_{i_k}^k)}\right]\nonumber\\
-  &= -2c^2(\sigma_{i_k}^k - \lambda_k)f_{\mathbf{i}_{-k}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 + 2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 - 2\tau^2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]} - 2\tau^2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{j=1,j\neq k}^K\frac{1}{\sigma_{i_j}^jf_{i_j}^j(\sigma_{i_j}^j)}\nonumber\\
-  \begin{split}
-    &= -2c^2\sigma_{i_k}^kf_{\mathbf{i}_{-k}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 + \lambda_k2c^2f_{\mathbf{i}_{-k}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 + 2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 - 2\tau^2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]}\\
-    &- 2\tau^2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{j=1,j\neq k}^K\frac{1}{\sigma_{i_j}^jf_{i_j}^j(\sigma_{i_j}^j)},\label{equation:long.deriv}
-  \end{split}
-\end{align}
-where $f_{\mathbf{i}_{-k}} = \prod_{j=1,j\neq k}^Kf_{i_j}^j(\sigma_{i_j}^j)$. Let
-\begin{align*}
-  a &= \sum_{\mathbf{i}} 2c^2\sigma_{i_k}^kf_{\mathbf{i}_{-k}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2,\\
-  b &= \sum_{\mathbf{i}} 2c^2f_{\mathbf{i}_{-k}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2,\\
-  d &= \sum_{\mathbf{i}} 2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2,\\
-  e &= 2\tau^2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]}, \text{ and}\\
-  h &= 2\tau^2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{j=1,j\neq k}^K\frac{1}{\sigma_{i_j}^jf_{i_j}^j(\sigma_{i_j}^j)},
-\end{align*}
-where we are summing over the set of $i_{k}$'s such that
-$\sigma_{i_k}^k > \lambda_k$ for $k = 1,\ldots,K$. Then the gradient
-(\ref{equation:long.deriv}) is equal to
-\begin{align*}
-  &-a + \lambda_k b + d - e - h.
-\end{align*}
-We now have a Newton step for a gradient descent algorithm:
-\begin{align*}
-  \lambda_k^{NEW} &= \lambda_k - (-a + \lambda_k b + d - e - h) / b\\
-  &= \lambda_k  - \lambda_k  + (a - d + e + h) / b\\
-  &= (a - d + e + h) / b
-\end{align*}
-
-To update $c$, we have
+To update each $\lambda_k$, we simply apply a general purpose
+univariate optimizer (e.g. Brent's method
+\citep{brent1971algorithm}). To update $c$, we have
 \begin{align*}
   &\frac{d}{dc}\left[c^2f_{\mathbf{i}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 - 2 cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 + 2\tau^2cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]} + 2\tau^2cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{k=1}^K\frac{1}{\sigma_{i_k}^kf_{i_k}^k(\sigma_{i_k}^k)}\right]\\
   &=2cf_{\mathbf{i}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 - 2f_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 + 2\tau^2f_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]} + 2\tau^2f_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{k=1}^K\frac{1}{\sigma_{i_k}^kf_{i_k}^k(\sigma_{i_k}^k)}.
@@ -167,6 +133,53 @@ where we are summing over the set of $i_k$'s such that $\sigma_{i_k}^k
 > \lambda_k$ for $k = 1,\ldots,K$. Then the minimum $c$ occurs at $(b
 - d - e)/a$. This is a global minimizer, conditional on the
 $\lambda_k$'s, since $a > 0$.
+
+% \section{Newton step for optimization}
+% Let $f_{\mathbf{i}} = \prod_{k=1}^Kf_{i_k}^k(\sigma_{i_k}^k)$ and
+% $\tilde{\sigma}_{\mathbf{i}} = \prod_{k=1}^K\sigma_{i_k}^k$. The SURE
+% is equal to:
+% \begin{align}
+%   &||f(D) \cdot D ^{-1} \cdot \mathcal{S} - \mathcal{S}||^2 + 2\tau^2 \sum_{\mathbf{i}} \left[\left(f(D) \cdot D^{-1} \cdot \mathcal{C}\right)_{[\mathbf{i}]} + \sum_{k=1}^K \left(H_k \cdot \mathcal{S}^2\right)_{[\mathbf{i}]}\right] - p \tau^2\\
+%   & = \sum_{\mathbf{i}}\left[\left(f_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]} - \mathcal{S}_{[\mathbf{i}]}\right)^2 + 2\tau^2f_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]} + 2\tau^2f_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{k=1}^K\frac{\frac{d}{d\sigma_{i_k}^k}f_{i_k}^k(\sigma_{i_k}^k)}{\sigma_{i_k}^kf_{i_k}^k(\sigma_{i_k}^k)}\right] - p\tau^2. \label{equation:sum.sure}
+% \end{align}
+% Considering only the mode-specific soft-thresholding estimator, we
+% need to calculate the gradient given $\mathbf{i}$. One can show that
+% if any $\lambda_k \geq \sigma_{i_k}^k$, then its contribution to the
+% gradient is zero. Hence, given $\mathbf{i}$, assume that all
+% $\lambda_k < \sigma_{i_k}^k$ for $k = 1,\ldots,K$. Then
+% $(\sigma_{i_k}^k - \lambda_k)_+ = \sigma_{i_k}^k - \lambda_k$ and
+% $\frac{d}{d\sigma_{i_k}^k}f_{i_k}^k(\sigma_{i_k}^k) = 1$. We have
+% \begin{align}
+%   &\frac{d}{d\lambda_k}\left[\left(cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]} - \mathcal{S}_{[\mathbf{i}]}\right)^2 + 2\tau^2cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]} + 2\tau^2cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{k=1}^K\frac{1}{\sigma_{i_k}^kf_{i_k}^k(\sigma_{i_k}^k)}\right]\nonumber\\
+%   &=\frac{d}{d\lambda_k}\left[c^2f_{\mathbf{i}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 - 2 cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 + 2\tau^2cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]} + 2\tau^2cf_{\mathbf{i}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{k=1}^K\frac{1}{\sigma_{i_k}^kf_{i_k}^k(\sigma_{i_k}^k)}\right]\nonumber\\
+%   &= -2c^2(\sigma_{i_k}^k - \lambda_k)f_{\mathbf{i}_{-k}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 + 2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 - 2\tau^2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]} - 2\tau^2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{j=1,j\neq k}^K\frac{1}{\sigma_{i_j}^jf_{i_j}^j(\sigma_{i_j}^j)}\nonumber\\
+%   \begin{split}
+%     &= -2c^2\sigma_{i_k}^kf_{\mathbf{i}_{-k}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 + \lambda_k2c^2f_{\mathbf{i}_{-k}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 + 2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 - 2\tau^2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]}\\
+%     &- 2\tau^2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{j=1,j\neq k}^K\frac{1}{\sigma_{i_j}^jf_{i_j}^j(\sigma_{i_j}^j)},\label{equation:long.deriv}
+%   \end{split}
+% \end{align}
+% where $f_{\mathbf{i}_{-k}} = \prod_{j=1,j\neq k}^Kf_{i_j}^j(\sigma_{i_j}^j)$. Let
+% \begin{align*}
+%   a &= \sum_{\mathbf{i}} 2c^2\sigma_{i_k}^kf_{\mathbf{i}_{-k}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2,\\
+%   b &= \sum_{\mathbf{i}} 2c^2f_{\mathbf{i}_{-k}}^2\tilde{\sigma}^{-2}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2,\\
+%   d &= \sum_{\mathbf{i}} 2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2,\\
+%   e &= 2\tau^2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{C}_{[\mathbf{i}]}, \text{ and}\\
+%   h &= 2\tau^2cf_{\mathbf{i}_{-k}}\tilde{\sigma}^{-1}_{\mathbf{i}}\mathcal{S}_{[\mathbf{i}]}^2 \sum_{j=1,j\neq k}^K\frac{1}{\sigma_{i_j}^jf_{i_j}^j(\sigma_{i_j}^j)},
+% \end{align*}
+% where we are summing over the set of $i_{k}$'s such that
+% $\sigma_{i_k}^k > \lambda_k$ for $k = 1,\ldots,K$. Then the gradient
+% (\ref{equation:long.deriv}) is equal to
+% \begin{align*}
+%   &-a + \lambda_k b + d - e - h.
+% \end{align*}
+% We now have a Newton step for a gradient descent algorithm:
+% \begin{align*}
+%   \lambda_k^{NEW} &= \lambda_k - (-a + \lambda_k b + d - e - h) / b\\
+%   &= \lambda_k  - \lambda_k  + (a - d + e + h) / b\\
+%   &= (a - d + e + h) / b
+% \end{align*}
+
+
 
 
 % \section{Supplementary Material}
