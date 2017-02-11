@@ -21,9 +21,9 @@ This folder contains the code necessary to reproduce the results of @gerard2015a
 3. Get some coffee.
 
 # Download the appropriate R packages.
-You can obtain of the needed R packages by running the following code in R:
+You can obtain all of the needed R packages by running the following code in R:
 ```{r, eval = FALSE}
-install.packages(c("tensr", "dplyr", "ggplot2", "tidyr", "xtable", "devtools"))
+install.packages(c("tensr", "dplyr", "ggplot2", "tidyr", "xtable", "devtools", "snow"))
 devtools::install_github("dcgerard/hose")
 ```
 
@@ -57,6 +57,7 @@ library(tensr)
 library(ggplot2)  
 library(tidyr)
 library(xtable)
+library(snow)
 ```
 
 ```{r}

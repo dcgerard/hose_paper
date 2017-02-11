@@ -11,35 +11,7 @@ library(tensr)
 library(ggplot2)
 library(tidyr)
 suppressMessages(library(dplyr))
-
-#' Generates a scaled all-orthonormal array of dimension p with Frobenius norm equal to fnorm_mean.
-#'
-#' @param p A vector positive integers. The dimension of the array.
-#' @param r A vector of positive integers. The multilinear rank of the array.
-#' @param fnorm_mean The Frobenius norm of the tensor.
-#'
-#' @author David Gerard
-#'
-#' @examples
-#' p <- c(5, 7, 11)
-#' r <- c(2, 3, 5)
-#' fnorm_mean <- 1
-#' fout <- generate_core_same(p, r, fnorm_mean)
-#' tensr::fnorm(fout)
-generate_core_same <- function(p, r, fnorm_mean)
-{
-  stopifnot(length(p) == length(r))
-  stopifnot(all(p >= r))
-  x_temp <- array(stats::rnorm(prod(r)), dim = r)
-  x_holq <- tensr::holq(x_temp)
-  x_isvd <- tensr::get_isvd(x_holq)
-  s_temp <- array(0, dim = p)
-  indices_s_temp <- as.matrix(expand.grid(lapply(r, seq, from = 1)))
-  s_temp[indices_s_temp] <- x_isvd$V
-  U_mult <- tensr::hosvd(array(stats::rnorm(prod(p)), dim = p))$U
-  theta <- tensr::atrans(s_temp / fnorm(s_temp) * fnorm_mean, U_mult)
-  return(theta)
-}
+source("./code/misc_functions.R")
 
 #####################################
 ## generate an array that has very high rank in one dimension but very low in rest
