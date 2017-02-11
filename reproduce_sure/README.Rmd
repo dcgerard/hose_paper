@@ -14,7 +14,55 @@ knitr::opts_chunk$set(
 ```
 
 # Reproduce Results of @gerard2015adaptive
-This folder contains the code necessary to reproduce the results of @gerard2015adaptive.
+This folder contains the code necessary to reproduce the results of @gerard2015adaptive. To reproduce these results you will need to:
 
+1. Download the appropriate R packages.
+2. Run `make`.
+3. Get some coffee.
+
+# Download the appropriate R packages.
+You can obtain of the needed R packages by running the following code in R:
+```{r, eval = FALSE}
+install.packages(c("tensr", "dplyr", "ggplot2", "tidyr", "xtable", "devtools"))
+devtools::install_github("dcgerard/hose")
+```
+
+# Run `make`
+To reproduce all of the results of @gerard2015adaptive, simply run `make` from the terminal (not in the R session). To reproduce figure from Section 2, run
+``` shell
+make change_sv
+```
+
+# Get coffee
+Some of the simulations will take awhile to run. You should get some coffee! Here is a list of some of my favorites:
+
+* Chicago
+    - [Sawada Coffee](https://www.yelp.com/biz/sawada-coffee-chicago)
+    - [Plein Air Cafe](https://www.yelp.com/biz/plein-air-cafe-and-eatery-chicago-2)
+* Seattle
+    - [Bauhaus Ballard](https://www.yelp.com/biz/bauhaus-ballard-seattle)
+    - [Cafe Solstice](https://www.yelp.com/biz/cafe-solstice-seattle)
+* Columbus
+    - [Yeah, Me Too](https://www.yelp.com/biz/yeah-me-too-columbus)
+    - [Stauf's Coffee Roasters](https://www.yelp.com/biz/staufs-coffee-roasters-columbus-2)
+    - [Caffe Apropos](https://www.yelp.com/biz/caff%C3%A9-apropos-columbus-2)
+
+
+# Bugs
+If you have trouble running this code, then it might be that you need to update your R packages. I ran these simulations under these settings:
+```{r, echo = FALSE, message=FALSE}
+library(dplyr)
+library(hose)
+library(tensr)
+library(ggplot2)  
+library(tidyr)
+library(xtable)
+```
+
+```{r}
+sessionInfo()
+```
+
+If you still have difficulty, please submit an [issue](https://github.com/dcgerard/hose_paper/issues).
 
 # References
