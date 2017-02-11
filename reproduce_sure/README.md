@@ -22,16 +22,22 @@ devtools::install_github("dcgerard/hose")
 Run `make`
 ==========
 
-To reproduce all of the results of Gerard and Hoff (2015), simply run `make` from the terminal (not in the R session). To reproduce figure from Section 2, run
+To reproduce all of the results of Gerard and Hoff (2015), simply run `make` from the terminal (not in the R session). To reproduce the figure from Section 2, run in the terminal:
 
 ``` shell
 make change_sv
 ```
 
+To reproduce the simulation results from the paper, run in the terminal:
+
+``` shell
+make sims
+```
+
 Get coffee
 ==========
 
-Some of the simulations will take awhile to run. You should get some coffee! Here is a list of some of my favorites:
+Some of the simulations will take awhile to run (2 to 10 hours depending on how many cores you are using). You should get some coffee! Here is a list of some of my favorite places:
 
 -   Chicago
     -   [Sawada Coffee](https://www.yelp.com/biz/sawada-coffee-chicago)
@@ -78,6 +84,8 @@ sessionInfo()
 #> [17] rprojroot_1.2    digest_0.6.11    tibble_1.2       evaluate_0.10   
 #> [21] rmarkdown_1.3    stringi_1.1.2    scales_0.4.1     backports_1.0.5
 ```
+
+As you can see above, I've only tried this on Linux.
 
 If you still have difficulty, please submit an [issue](https://github.com/dcgerard/hose_paper/issues).
 

@@ -28,13 +28,18 @@ devtools::install_github("dcgerard/hose")
 ```
 
 # Run `make`
-To reproduce all of the results of @gerard2015adaptive, simply run `make` from the terminal (not in the R session). To reproduce figure from Section 2, run
+To reproduce all of the results of @gerard2015adaptive, simply run `make` from the terminal (not in the R session). To reproduce the figure from Section 2, run in the terminal:
 ``` shell
 make change_sv
 ```
 
+To reproduce the simulation results from the paper, run in the terminal:
+``` shell
+make sims
+```
+
 # Get coffee
-Some of the simulations will take awhile to run. You should get some coffee! Here is a list of some of my favorites:
+Some of the simulations will take awhile to run (2 to 10 hours depending on how many cores you are using). You should get some coffee! Here is a list of some of my favorite places:
 
 * Chicago
     - [Sawada Coffee](https://www.yelp.com/biz/sawada-coffee-chicago)
@@ -63,6 +68,8 @@ library(snow)
 ```{r}
 sessionInfo()
 ```
+
+As you can see above, I've only tried this on Linux. 
 
 If you still have difficulty, please submit an [issue](https://github.com/dcgerard/hose_paper/issues).
 

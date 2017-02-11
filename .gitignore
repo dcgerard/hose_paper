@@ -56,3 +56,7 @@ ieee/
 IEEEtran/
 outline/
 reproducible_research/
+
+## Data files
+*.csv
+*.txt
