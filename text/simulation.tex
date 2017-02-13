@@ -152,26 +152,26 @@ provides a good estimate of the true rank of $\Theta$. We evaluated
 this possibility in simulation Scenarios \textbf{D} and \textbf{F}. In
 Scenario \textbf{F}, where the tensor had dimension $(10,10,10)$ and
 the true multilinear rank was $(5,5,5)$, this SURE method correctly
-estimated the multilinear rank in 94.4\% of trials. In Scenario
+estimated the multilinear rank in 92.6\% of trials. In Scenario
 \textbf{D}, where the true multilinear rank was $(5,10,10)$, the
 results of the simulation study can be found in Table
 \ref{tab:rank.est}. There, we see that the rank of the first mode is
-correctly estimated in 96\% of trials. The rank of the second and
+correctly estimated in 97\% of trials. The rank of the second and
 third modes are correctly estimated a majority of the time.
 
-% latex table generated in R 3.1.2 by xtable 1.7-3 package
-% Fri Mar  6 11:18:30 2015
+% latex table generated in R 3.3.2 by xtable 1.8-2 package
+% Mon Feb 13 10:53:01 2017
 \begin{table}[ht]
-  \centering
-  \begin{tabular}{rrrrrrrr}
-    \hline
-    Estimated Rank & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\
-    \hline
-    Mode 1 & .04 & .96 & 0 & 0 & 0 & 0 & 0 \\
-    Mode 2 &   0 & .01 & .02 & .05 & .12 & .25 & .56 \\
-    Mode 3 &   0 & 0 & 0 & .02 & .06 & .20 & .71 \\
-    \hline
-  \end{tabular}
-  \caption{Proportion of times each rank is estimated based on SURE for each mode over 500 repetitions when the true multilinear rank is $(5,10,10)$.}
-  \label{tab:rank.est}
+\centering
+\begin{tabular}{rlllllll}
+  \hline
+ Estimated Rank & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\
+  \hline
+Mode 1 & .03 & .97 & 0 & 0 & 0 & 0 & 0 \\
+  Mode 2 & 0 & 0 & .02 & .03 & .11 & .27 & .57 \\
+  Mode 3 & 0 & 0 & 0 & .01 & .05 & .18 & .74 \\
+   \hline
+\end{tabular}
+\caption{Proportion of times each rank is estimated based on SURE for each mode over 500 repetitions when the true multilinear rank is (5, 10, 10).}
+\label{tab:rank.est}
 \end{table}

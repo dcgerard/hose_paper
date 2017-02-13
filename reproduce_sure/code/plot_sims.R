@@ -14,9 +14,9 @@ ltrunc   <- read.csv("./output/sims_out/losses_trunc.csv")
 lsoft    <- read.csv("./output/sims_out/losses_soft.csv")
 
 lstein$theta   <- "A" ## "uncorrelated"
-lcandes2$theta <- "B" ## "dispersed_one_mode"
+lcandes$theta  <- "B" ## "dispersed_one_mode"
 lem$theta      <- "C" ## "ar1_one_mode"
-lcandes$theta  <- "D" ## "low_rank_one_mode"
+lcandes2$theta <- "D" ## "low_rank_one_mode"
 lsoft$theta    <- "E" ## "evenly_dispersed_svs"
 ltrunc$theta   <- "F" ## "low_multilinear_rank"
 

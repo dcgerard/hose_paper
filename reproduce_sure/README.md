@@ -19,6 +19,8 @@ install.packages(c("tensr", "dplyr", "ggplot2", "tidyr", "xtable", "devtools", "
 devtools::install_github("dcgerard/hose")
 ```
 
+To download the code in this repo, click on [this link](https://github.com/dcgerard/hose_paper/archive/master.zip).
+
 Run `make`
 ==========
 
