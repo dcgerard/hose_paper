@@ -1,7 +1,9 @@
 Adaptive Higher-order Spectral Estimators
 =========================================
 
-These are edits for Gerard and Hoff (2015). The arXiv version can be found [here](https://arxiv.org/abs/1505.02114).
+This repo contains edits for Gerard and Hoff (2015). The arXiv version can be found [here](https://arxiv.org/abs/1505.02114).
+
+This repo also contains the code to reproduce the results of Gerard and Hoff (2015) [here](https://github.com/dcgerard/hose_paper/tree/master/reproduce_sure).
 
 References
 ==========
