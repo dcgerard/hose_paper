@@ -12,7 +12,7 @@ mean_theta = ./output/generated_thetas/theta_candes2.txt \
              ./output/generated_thetas/theta_stein.txt \
              ./output/generated_thetas/theta_trunc.txt
 
-all : change_sv sims
+all : change_sv sims nba
 
 ## Create changing core figure in paper.
 .PHONY : change_sv
@@ -31,3 +31,10 @@ $(sims_out) $(mean_theta) : ./code/big_sims.R
 sims : $(sims_out) $(mean_theta)
 	mkdir -p output/figures
 	Rscript ./code/plot_sims.R
+
+## Run NBA Analysis
+.PHONY : nba
+nba : ./code/east_analyze.R ./code/west_analyze.R
+	mkdir -p output/nba_results
+	Rscript ./code/east_analyze.R
+	Rscript ./code/west_analyze.R
