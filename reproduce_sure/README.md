@@ -34,6 +34,12 @@ To reproduce the simulation results from the paper, run in the terminal:
 make sims
 ```
 
+To reproduce the analysis of NBA statistics, run in the terminal:
+
+``` shell
+make nba
+```
+
 Get coffee
 ==========
 
@@ -74,7 +80,7 @@ sessionInfo()
 #> 
 #> other attached packages:
 #> [1] snow_0.4-2    xtable_1.8-2  tidyr_0.6.0   ggplot2_2.2.1 tensr_1.0.0  
-#> [6] hose_0.1.1    dplyr_0.5.0  
+#> [6] hose_0.1.2    dplyr_0.5.0  
 #> 
 #> loaded via a namespace (and not attached):
 #>  [1] Rcpp_0.12.9      knitr_1.15.1     magrittr_1.5     munsell_0.4.3   

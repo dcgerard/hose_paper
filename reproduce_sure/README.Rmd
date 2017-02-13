@@ -38,6 +38,11 @@ To reproduce the simulation results from the paper, run in the terminal:
 make sims
 ```
 
+To reproduce the analysis of NBA statistics, run in the terminal:
+``` shell
+make nba
+```
+
 # Get coffee
 Some of the simulations will take awhile to run (2 to 10 hours depending on how many cores you are using). You should get some coffee! Here is a list of some of my favorite places:
 
