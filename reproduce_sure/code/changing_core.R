@@ -37,7 +37,7 @@ dat$X = dat$Index + dat$Mode / 9 - 2 / 9
 dat$Mode <- as.factor(dat$Mode)
 
 
-pdf(file = "./output/figures/low_multilinear_rank.pdf", family = "Times", height = 2, width = 3.2)
+pdf(file = "./output/figures/low_multilinear_rank.pdf", family = "Times", height = 2, width = 6)
 ggplot(data = dat, mapping = aes(x = X, y = `Singular Values`, linetype = Mode)) +
   geom_segment(aes(xend = X, yend = 0)) +
   theme_bw() +

@@ -28,10 +28,11 @@ is:
 \end{align}
 where $\Theta \in \mathbb{R}^{p_1\times\cdots\times p_K}$ is the
 signal and $\mathcal{E} \in \mathbb{R}^{p_1\times\cdots\times p_K}$ is
-the additive measurement error or noise. The performance of an
-estimator $t(\mathcal{X})\in \mathbb{R}^{p_1\times\cdots\times p_K}$
-can be evaluated by statistical risk under quadratic loss, i.e.\ mean
-squared error (MSE):
+the additive Gaussian measurement error or noise with mean 0 and
+various $\tau^2$. The performance of an estimator
+$t(\mathcal{X})\in \mathbb{R}^{p_1\times\cdots\times p_K}$ can be
+evaluated by statistical risk under quadratic loss, i.e.\ mean squared
+error (MSE):
 \begin{align}
   \label{equation:mse}
   \mse(t(\mathcal{X})) = E_{\Theta}[||\Theta - t(\mathcal{X})||^2] = \sum_{\mathbf{i}} E_{\Theta}[(\Theta_{[\mathbf{i}]} - t(\mathcal{X})_{[\mathbf{i}]})^2],
@@ -41,12 +42,10 @@ indices.
 
 In the matrix variate case, $X \in \mathbb{R}^{p \times n}$, an
 investigator often believes that the mean is well approximated by a
-low rank matrix. \textbf{EXTEND}
-
-There has been much work on ``denoising'' (or mean estimation) in
-matrix variate data by using our knowledge that the mean has
-approximately low rank. A typical estimation scheme begins by
-computing the singular value decomposition (SVD) of $X$:
+low rank matrix. There has been much work on ``denoising'' (or mean
+estimation) in matrix variate data by using this knowledge. A typical
+estimation scheme begins by computing the singular value decomposition
+(SVD) of $X$:
 \begin{align}
   \label{equation:svd}
   X = UDV^T,
@@ -72,8 +71,8 @@ orthogonal matrices $W,Z$ \citep{shabalin2013reconstruction}.
 Early work on singular value shrinkage estimation from a
 non-statistical perspective began with \cite{eckart1936approximation},
 where they proved that the best rank $r$ approximation to the data
-matrix $X \in \mathbb{R}^{p \times n}$ is found with the shrinkage
-function:
+matrix $X \in \mathbb{R}^{p \times n}$ (in terms of sum of squared
+differences from $X$) is found with the shrinkage function:
 \begin{align}
   \label{equation:eckart.young}
   f_i(\sigma_i) = \sigma_i 1(i \leq r),
@@ -89,10 +88,11 @@ uniformly dominate $X$ in terms of risk. This seminal shrinkage
 estimator, in the context of matrix estimation, is given by
 \begin{align}
   \label{equation:stein}
-  f_i(\sigma_i) = \left(1 - \frac{\lambda}{\sum_{i = 1}^p\sigma_i^2}\right)\sigma_i.
+  f_i(\sigma_i) = \left(1 - \frac{\lambda}{\sum_{i = 1}^p\sigma_i^2}\right)\sigma_i,
 \end{align}
-For data that exhibit associations between the rows and/or columns of
-the mean matrix, the estimator of \cite{efron1972empirical}, given by
+where $\lambda > 0$ is some tuning parameter. For data that exhibit
+associations between the rows and/or columns of the mean matrix, the
+estimator of \cite{efron1972empirical}, given by
 \begin{align}
   \label{equation:efron.morris}
   f_i(\sigma_i) = \sigma_i - \frac{\lambda}{\sigma_i},
@@ -103,8 +103,9 @@ estimator with a generalization of both (\ref{equation:stein}) and
 (\ref{equation:efron.morris}), given by
 \begin{align}
   \label{equation:improved.em}
-  f_i(\sigma_i) = \left(1 - \frac{\gamma}{\sum_{i = 1}^p\sigma_i^2}\right)\sigma_i - \frac{\lambda}{\sigma_i}.
+  f_i(\sigma_i) = \left(1 - \frac{\gamma}{\sum_{i = 1}^p\sigma_i^2}\right)\sigma_i - \frac{\lambda}{\sigma_i},
 \end{align}
+where $\lambda > 0$ and $\gamma > 0$ are tuning parameters.
 
 More recent work has focused on estimators whose functions
 $f_i(\cdot)$ induce sparsity in the singular values, which may be more
@@ -147,13 +148,35 @@ low \emph{multilinear} rank (see Section \ref{sec:tensor}), that is,
 ``matricizing'' along each index set, or ``mode'', results in a low
 rank matrix.
 
-\textbf{New data showing low multilinear rank. Show scree plot for
-  each mode.} If we were only matricizing along the time dimension we
-would only observe the dotted lines, which seem to suggest the data
-have approximately rank 1. However, the vertical and horizontal
-dimensions also seem to have approximately low rank, as evidenced by
-the solid and dashed lines. Shrinking the singular values along these
-additional modes may also improve estimation.
+An extreme simulated example that exhibits this phenomenon is
+presented in Figure \ref{fig:sim.extreme}. There, we plotted the
+mode-specific singular values of a tensor that we generated to have
+full rank along one mode and low ranks along two modes. That is, we
+plotted the singular values of each matricization of the tensor. If an
+analyst were presented with a noisy version of this tensor and only
+matricizing along the first mode, then they would only observe a noisy
+realization of the solid lines, which would suggest the data are full
+rank. However, the second and third modes have low-rank structure and
+shrinking the singular values along these additional modes may improve
+estimation.
+
+
+\begin{figure}
+\begin{center}
+\includegraphics{./fig/low_multilinear_rank.pdf}
+\caption{Mode-specific singular values of simulated tensor with full
+  rank along first mode and low-ranks along second and third modes.}
+\label{fig:sim.extreme}
+\end{center}
+\end{figure}
+
+% \textbf{New data showing low multilinear rank. Show scree plot for
+%   each mode.} If we were only matricizing along the time dimension we
+% would only observe the dotted lines, which seem to suggest the data
+% have approximately rank 1. However, the vertical and horizontal
+% dimensions also seem to have approximately low rank, as evidenced by
+% the solid and dashed lines. Shrinking the singular values along these
+% additional modes may also improve estimation.
 
 %% In general, having low rank along one mode does not imply having
 %% low rank along all modes. It is possible to have different
@@ -164,6 +187,8 @@ additional modes may also improve estimation.
 %% modes 2 and 3. If we were only to observe the first mode matrix
 %% unfolding, then we would not be aware of the low rank structure,
 %% when in fact there is extremely low multilinear rank structure.
+
+
 
 
 In this article, we introduce a family of estimators that shrink
@@ -192,7 +217,7 @@ an unbiased estimate of the risk.
 %% spectral estimators.
 
 Our paper is organized as follows. In Section \ref{sec:tensor}, we
-introduce tensors and the HOSVD. We then present how one may define
+review tensors and the HOSVD. We then present how one may define
 functions that shrink the mode-specific singular values of the
 HOSVD. In particular, we present two specific estimators that shrink
 the data tensor towards having (approximately) low multilinear rank

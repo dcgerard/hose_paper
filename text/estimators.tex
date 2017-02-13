@@ -53,7 +53,7 @@ intuition for shrinkage functions of the form
 (\ref{equation:mode.specific.soft}) is that the larger the value of
 $\lambda_k$, the more dispersed the resulting mode-specific singular
 values tend to be on a normalized scale. Likewise, the more negative
-the the value of $\lambda_k$ to the singular values the less dispersed
+the value of $\lambda_k$ to the singular values the less dispersed
 the resulting mode-specific singular values tend to be. To gain
 intuition regarding this phenomenon, we provide an extreme case. We
 generated a $10 \times 10 \times 10$ tensor where each mode had
@@ -78,9 +78,10 @@ shrinkage estimator of the form:
   \label{equation:msst.est}
   t(\mathcal{X}) = c\ (U_1,\ldots,U_K)\cdot(f^1(D_1)D_1^{-1},\ldots,f^K(D_K)D_K^{-1})\cdot\mathcal{S},
 \end{align}
-where $c > 0$ is the overall scale parameter, $f^k(D_k) =
-\diag(f_1^k(\sigma_1^k),\ldots,f_{p_k}^k(\sigma_{p_k}^k))$, and
-$f_i^k(\cdot)$ is from (\ref{equation:mode.specific.soft}).
+where $c > 0$ is the overall scale parameter,
+$f^k(D_k) =
+\diag(f_1^k(\sigma_1^k),\ldots,f_{p_k}^k(\sigma_{p_k}^k))$,
+and $f_i^k(\cdot)$ is from (\ref{equation:mode.specific.soft}).
 
 \begin{figure*}
 \begin{center}

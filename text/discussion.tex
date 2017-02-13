@@ -17,27 +17,25 @@ these estimators are defined as the minimizers of a penalized squared
 error empirical loss, where the penalty is usually some generalization
 of the nuclear norm to tensors (for example, the sum of the nuclear
 norms of the $K$ matricizations of a tensor). These estimators, though
-similar in spirit, are very different from our approach. Our
-estimators can be written in closed form (\ref{equation:ho.spect.est})
-and are not the solution of a minimization problem. While both our
-class of estimators and the class of penalized optimization estimators
-contain tuning parameters, the penalized optimization approaches are
-not totally adaptive as they do not provide methods to select the
-tuning parameters. We have presented a way to adaptively choose the
-tuning parameters of our higher-order spectral estimators by
-minimizing the SURE. This approach is applicable, not just for the
-truncated HOSVD (\ref{equation:trunc.shrink}) and the mode-specific
-soft-thresholding (\ref{equation:msst.est}) estimators, but also for
-\emph{all} estimators of the form (\ref{equation:ho.spect.est}) that
-satisfy the conditions of Theorem \ref{theorem:stein.theorem}.
+similar in spirit, are very different from our approach. The main
+advantage of our estimators is their simplicity --- they are simply
+functions of the HOSVD (\ref{equation:ho.spect.est}) for which there
+are efficient and accurate numerical procedures to compute.
 
-Although we found that adaptively choosing the tuning parameters by
-minimizing the SURE worked well under the scenarios we studied, there
-are other ways to select tuning parameters. In the case of matrix
-spectral estimators, others have chosen the amount of shrinkage by
-minimax considerations \citep{efron1972empirical,stein1981estimation},
-cross-validation \citep{bro2008cross,owen2009bi,josse2012selecting},
-and asymptotic considerations
+We have presented a way to adaptively choose the tuning parameters of
+our higher-order spectral estimators by minimizing the SURE. This
+approach is applicable, not just for the truncated HOSVD
+(\ref{equation:trunc.shrink}) and the mode-specific soft-thresholding
+(\ref{equation:msst.est}) estimators, but also for \emph{all}
+estimators of the form (\ref{equation:ho.spect.est}) that satisfy the
+conditions of Theorem \ref{theorem:stein.theorem}.  Although we found
+that adaptively choosing the tuning parameters by minimizing the SURE
+worked well under the scenarios we studied, there are other ways to
+select tuning parameters. In the case of matrix spectral estimators,
+others have chosen the amount of shrinkage by minimax considerations
+\citep{efron1972empirical,stein1981estimation}, cross-validation
+\citep{bro2008cross,owen2009bi,josse2012selecting}, and asymptotic
+considerations
 \citep{gavish2014optimalhard,gavish2014optimal}. Exploring these
 methods for our higher-order spectral estimators
 (\ref{equation:ho.spect.est}) is a current research area of the
@@ -66,9 +64,14 @@ components analysis
 Although the error variance $\tau^2$ in (\ref{equation:normal.model})
 might be known in some settings, such as fMRI data sets
 \citep{candes2013unbiased}, in most applied situations the variance
-would not be unknown. Instead of plugging in an estimate of the
-variance into the SURE formula (\ref{equation:sure.form}), there has
-been a recent suggestion to use a generalized SURE formula
+would not be unknown. There are matrix-specific estimates of the
+variance that can be applied to tensor-variate datasets by first
+matricizing along each mode. In our software, we have implemented the
+methods described in \citet{choi2014selecting} and
+\citet{gavish2014optimalhard}. Though, instead of plugging in an
+estimate of the variance into the SURE formula
+(\ref{equation:sure.form}), there has been a recent suggestion to use
+a generalized SURE formula
 \citep{sylvain2012smooth,josse2015adaptive}:
 \begin{align*}
 \gsure(t) = \frac{||t(\mathcal{X}) - \mathcal{X}||^2}{(1 - \diverge(t(\mathcal{X}))/p)^2}.
@@ -80,9 +83,8 @@ variance to be known, and so its minimization may be accomplished
 without an estimate of $\tau^2$. For our higher-order spectral
 estimators, we have already accomplished the hard work of calculating
 the divergence in this paper, and implementing GSURE is an easy
-application of this result. The code available on the first author's
-web page allows for GSURE implementation for the estimators discussed
-in this article.
+application of this result. Our software allows for GSURE
+implementation for the estimators discussed in this article.
 
 
 All methods discussed in this paper are implemented in the R package
