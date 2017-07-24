@@ -63,13 +63,13 @@ theta <- array(stats::rnorm(prod(p)), dim = p)
 theta <- tensr::atrans(theta, list(diag(seq(10, 8, length = 10)),
                                    diag(seq(10, 8, length = 10)),
                                    diag(seq(10, 8, length = 10))))
-theta <- theta / 10
+theta <- theta / 1000
 hosvd_theta <- hose::hosvd_full(theta)
 
 c_x <- hose::get_c(theta)
 final_theta <- hose::sure_given_c(obj = c_x, func = func_lasso,
                                   dfunc = dfunc_lasso,
-                                  lambda = list(500, 0, -10000))
+                                  lambda = list(5, 0, -100))
 hosvd_final <- hose::hosvd_full(final_theta$mean_est)
 
 dat <- data_frame(Mode = 1, Shrinkage = "Before",

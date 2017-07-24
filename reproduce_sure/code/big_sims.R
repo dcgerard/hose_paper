@@ -47,12 +47,12 @@ one_rep <- function(current_seed, theta) {
   }
 
   sure_vec <- rep(NA, 5)
-  loss_vec <- rep(NA, 6)
+  loss_vec <- rep(NA, 10)
 
   X <- theta + array(stats::rnorm(prod(p)), dim = p)
 
   ## mode-specific soft-thresholding ---------------------------------------
-  lambda_init <- c(1, 1, 1)
+  lambda_init <- c(0, 0, 0)
   c_init <- 1
   c_x <- hose::get_c(X)
   soft_out <- hose::soft_coord(c_obj = c_x, lambda_init = lambda_init,
@@ -92,11 +92,35 @@ one_rep <- function(current_seed, theta) {
   ## Just X ----------------------------------------------------------------
   loss_vec[6] <- sum((X - theta)^2)
 
+  ## Cichocki's SCORE method -----------------------------------------------
+  cichocki_est <- hose::score_ylc(Y = X, return_est = TRUE)
+  loss_vec[7] <- sum((cichocki_est$est - theta) ^ 2)
+
+  ## mode-specific mdl -----------------------------------------------------
+  mdl_est <- hose::trunc_hosvd(Y = X, method = "mdl", return_est = TRUE)
+  loss_vec[8] <- sum((mdl_est$est - theta) ^ 2)
+
+  ## mode-specific SVA followed by truncation ------------------------------
+  par_analysis_est <- hose::trunc_hosvd(Y = X, method = "pa", return_est = TRUE)
+  loss_vec[9] <- sum((par_analysis_est$est - theta) ^ 2)
+
+  ## bicrossvalidation followed by truncation ------------------------------
+  bcv_est <- hose::trunc_hosvd(Y = X, method = "bcv", return_est = TRUE)
+  loss_vec[10] <- sum((bcv_est$est - theta) ^ 2)
+
   ## Return values ---------------------------------------------------------
-  return_vec <- c(loss_vec, sure_vec, rank_trunc)
+  return_vec <- c(loss_vec, sure_vec, rank_trunc,
+                  cichocki_est$rank, mdl_est$rank,
+                  par_analysis_est$rank, bcv_est$rank)
   names(return_vec) <- c("loss_soft", "loss_trunc", "loss_candes", "loss_em", "loss_stein",
-                         "loss_x", "sure_soft", "sure_trunc", "sure_candes", "sure_em",
-                         "sure_stein", "rank1", "rank2", "rank3")
+                         "loss_x", "loss_cichocki", "loss_mdl", "loss_par",
+                         "loss_bcv",
+                         "sure_soft", "sure_trunc", "sure_candes", "sure_em",
+                         "sure_stein", "sure_rank1", "sure_rank2", "sure_rank3",
+                         "cichocki_rank1", "cichocki_rank2", "cichocki_rank3",
+                         "mdl_rank1", "mdl_rank2", "mdl_rank3",
+                         "par_rank1", "par_rank2", "par_rank3",
+                         "bcv_rank1", "bcv_rank2", "bcv_rank3")
   return(return_vec)
 }
 
