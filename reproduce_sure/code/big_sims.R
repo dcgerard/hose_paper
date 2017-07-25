@@ -47,7 +47,7 @@ one_rep <- function(current_seed, theta) {
   }
 
   sure_vec <- rep(NA, 5)
-  loss_vec <- rep(NA, 10)
+  loss_vec <- rep(NA, 11)
 
   X <- theta + array(stats::rnorm(prod(p)), dim = p)
 
@@ -92,28 +92,33 @@ one_rep <- function(current_seed, theta) {
   ## Just X ----------------------------------------------------------------
   loss_vec[6] <- sum((X - theta)^2)
 
+  ## HOOI using SURE estimate of rank --------------------------------------
+  hx <- tensr::hooi(X = X, r = rank_trunc)
+  hooi_est <- tensr::atrans(hx$G, hx$U)
+  loss_vec[7] <- sum((hooi_est - theta) ^ 2)
+
   ## Cichocki's SCORE method -----------------------------------------------
   cichocki_est <- hose::score_ylc(Y = X, return_est = TRUE)
-  loss_vec[7] <- sum((cichocki_est$est - theta) ^ 2)
+  loss_vec[8] <- sum((cichocki_est$est - theta) ^ 2)
 
   ## mode-specific mdl -----------------------------------------------------
   mdl_est <- hose::trunc_hosvd(Y = X, method = "mdl", return_est = TRUE)
-  loss_vec[8] <- sum((mdl_est$est - theta) ^ 2)
+  loss_vec[9] <- sum((mdl_est$est - theta) ^ 2)
 
   ## mode-specific SVA followed by truncation ------------------------------
   par_analysis_est <- hose::trunc_hosvd(Y = X, method = "pa", return_est = TRUE)
-  loss_vec[9] <- sum((par_analysis_est$est - theta) ^ 2)
+  loss_vec[10] <- sum((par_analysis_est$est - theta) ^ 2)
 
   ## bicrossvalidation followed by truncation ------------------------------
   bcv_est <- hose::trunc_hosvd(Y = X, method = "bcv", return_est = TRUE)
-  loss_vec[10] <- sum((bcv_est$est - theta) ^ 2)
+  loss_vec[11] <- sum((bcv_est$est - theta) ^ 2)
 
   ## Return values ---------------------------------------------------------
   return_vec <- c(loss_vec, sure_vec, rank_trunc,
                   cichocki_est$rank, mdl_est$rank,
                   par_analysis_est$rank, bcv_est$rank)
   names(return_vec) <- c("loss_soft", "loss_trunc", "loss_candes", "loss_em", "loss_stein",
-                         "loss_x", "loss_cichocki", "loss_mdl", "loss_par",
+                         "loss_x", "loss_hooi", "loss_cichocki", "loss_mdl", "loss_par",
                          "loss_bcv",
                          "sure_soft", "sure_trunc", "sure_candes", "sure_em",
                          "sure_stein", "sure_rank1", "sure_rank2", "sure_rank3",

@@ -15,10 +15,11 @@ Download the appropriate R packages.
 You can obtain all of the needed R packages by running the following code in R:
 
 ``` r
-install.packages(c("tensr", "dplyr", "ggplot2", "tidyr", "xtable", 
+install.packages(c("dplyr", "ggplot2", "tidyr", "xtable", 
                    "devtools", "snow", "cate", "ggthemes"))
 source("https://bioconductor.org/biocLite.R")
 biocLite("sva")
+devtools::install_github("dcgerard/tensr")
 devtools::install_github("dcgerard/hose")
 ```
 

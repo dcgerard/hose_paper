@@ -20,12 +20,12 @@ lcandes2$theta <- "D" ## "low_rank_one_mode"
 lsoft$theta    <- "E" ## "evenly_dispersed_svs"
 ltrunc$theta   <- "F" ## "low_multilinear_rank"
 
-ldat <- select(lstein, 1:6, ncol(lstein)) %>%
-  bind_rows(select(lcandes2, 1:6, ncol(lcandes2))) %>%
-  bind_rows(select(lem, 1:6, ncol(lem))) %>%
-  bind_rows(select(lcandes, 1:6, ncol(lcandes))) %>%
-  bind_rows(select(ltrunc, 1:6, ncol(ltrunc))) %>%
-  bind_rows(select(lsoft, 1:6, ncol(lsoft))) %>%
+ldat <- select(lstein, 1:7, ncol(lstein)) %>%
+  bind_rows(select(lcandes2, 1:7, ncol(lcandes2))) %>%
+  bind_rows(select(lem, 1:7, ncol(lem))) %>%
+  bind_rows(select(lcandes, 1:7, ncol(lcandes))) %>%
+  bind_rows(select(ltrunc, 1:7, ncol(ltrunc))) %>%
+  bind_rows(select(lsoft, 1:7, ncol(lsoft))) %>%
   gather(key = "Method", value = "Loss", contains("loss_"))
 ldat$Method <- stringr::str_replace(string = ldat$Method, pattern = "loss_", replacement = "")
 ldat$Method[ldat$Method == "x"] <- "X"
@@ -34,7 +34,8 @@ ldat$Method[ldat$Method == "trunc"] <- "Tr"
 ldat$Method[ldat$Method == "em"] <- "EM"
 ldat$Method[ldat$Method == "candes"] <- "MS"
 ldat$Method[ldat$Method == "stein"] <- "JS"
-ldat$Method <- factor(ldat$Method, levels = c("ST", "Tr", "MS", "EM", "JS", "X"))
+ldat$Method[ldat$Method == "hooi"] <- "HO"
+ldat$Method <- factor(ldat$Method, levels = c("ST", "Tr", "HO", "MS", "EM", "JS", "X"))
 
 smalldat <- ldat %>% group_by(Method, theta) %>% summarise(Mean = mean(Loss)) %>% ungroup() %>%
   group_by(theta) %>% summarise(`Minimum Risk` = min(Mean))
