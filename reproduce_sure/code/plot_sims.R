@@ -52,6 +52,22 @@ dev.off()
 
 
 #############################
+## Just look at losses of the truncated methods -----------------------------
+#############################
+loss_dat_trunc <- select(lstein, loss_trunc, loss_cichocki:loss_bcv, ncol(lstein)) %>%
+  bind_rows(select(lcandes2, loss_trunc, loss_cichocki:loss_bcv, ncol(lcandes2))) %>%
+  bind_rows(select(lem, loss_trunc, loss_cichocki:loss_bcv, ncol(lem))) %>%
+  bind_rows(select(lcandes, loss_trunc, loss_cichocki:loss_bcv, ncol(lcandes))) %>%
+  bind_rows(select(ltrunc, loss_trunc, loss_cichocki:loss_bcv, ncol(ltrunc))) %>%
+  bind_rows(select(lsoft, loss_trunc, loss_cichocki:loss_bcv, ncol(lsoft))) %>%
+  gather(key = "Method", value = "Loss", contains("loss_"))
+loss_dat_trunc$Method <- stringr::str_replace(loss_dat_trunc$Method, "loss_", "")
+ggplot(loss_dat_trunc, mapping = aes(x = Method, y = Loss)) +
+  geom_boxplot() +
+  facet_wrap(~theta)
+
+
+#############################
 ## Looking at how well the rank is estimated. --------------------------------
 #############################
 ltrunc$index <- 1:nrow(ltrunc)
