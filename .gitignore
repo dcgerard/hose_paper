@@ -56,6 +56,7 @@ ieee/
 IEEEtran/
 outline/
 reproducible_research/
+reviewer_revisions/
 
 ## Data files
 *.csv
