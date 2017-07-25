@@ -15,7 +15,10 @@ Download the appropriate R packages.
 You can obtain all of the needed R packages by running the following code in R:
 
 ``` r
-install.packages(c("tensr", "dplyr", "ggplot2", "tidyr", "xtable", "devtools", "snow"))
+install.packages(c("tensr", "dplyr", "ggplot2", "tidyr", "xtable", 
+                   "devtools", "snow", "cate", "ggthemes"))
+source("https://bioconductor.org/biocLite.R")
+biocLite("sva")
 devtools::install_github("dcgerard/hose")
 ```
 
@@ -81,16 +84,29 @@ sessionInfo()
 #> [1] stats     graphics  grDevices utils     datasets  methods   base     
 #> 
 #> other attached packages:
-#> [1] snow_0.4-2    xtable_1.8-2  tidyr_0.6.0   ggplot2_2.2.1 tensr_1.0.0  
-#> [6] hose_0.1.2    dplyr_0.5.0  
+#>  [1] ggthemes_3.4.0    cate_1.0.4        sva_3.18.0       
+#>  [4] genefilter_1.52.1 mgcv_1.8-17       nlme_3.1-131     
+#>  [7] snow_0.4-2        xtable_1.8-2      tidyr_0.6.1      
+#> [10] ggplot2_2.2.1     tensr_1.0.0       hose_0.1.2       
+#> [13] dplyr_0.5.0      
 #> 
 #> loaded via a namespace (and not attached):
-#>  [1] Rcpp_0.12.9      knitr_1.15.1     magrittr_1.5     munsell_0.4.3   
-#>  [5] colorspace_1.3-2 R6_2.2.0         stringr_1.1.0    plyr_1.8.4      
-#>  [9] tools_3.3.2      grid_3.3.2       gtable_0.2.0     DBI_0.5-1       
-#> [13] htmltools_0.3.5  yaml_2.1.14      lazyeval_0.2.0   assertthat_0.1  
-#> [17] rprojroot_1.2    digest_0.6.11    tibble_1.2       evaluate_0.10   
-#> [21] rmarkdown_1.3    stringi_1.1.2    scales_0.4.1     backports_1.0.5
+#>  [1] splines_3.3.2        lattice_0.20-34      colorspace_1.3-2    
+#>  [4] htmltools_0.3.6      stats4_3.3.2         yaml_2.1.14         
+#>  [7] XML_3.98-1.8         survival_2.41-2      rlang_0.1.1         
+#> [10] DBI_0.6              BiocGenerics_0.16.1  plyr_1.8.4          
+#> [13] stringr_1.2.0        munsell_0.4.3        leapp_1.2           
+#> [16] gtable_0.2.0         svd_0.4              evaluate_0.10.1     
+#> [19] memoise_1.1.0        Biobase_2.30.0       knitr_1.16          
+#> [22] IRanges_2.4.8        parallel_3.3.2       AnnotationDbi_1.32.3
+#> [25] esaBcv_1.2.1         Rcpp_0.12.11         corpcor_1.6.8       
+#> [28] scales_0.4.1         backports_1.0.5      S4Vectors_0.8.11    
+#> [31] annotate_1.48.0      digest_0.6.12        stringi_1.1.2       
+#> [34] grid_3.3.2           rprojroot_1.2        tools_3.3.2         
+#> [37] magrittr_1.5         lazyeval_0.2.0       tibble_1.3.3        
+#> [40] RSQLite_1.1-2        MASS_7.3-45          Matrix_1.2-8        
+#> [43] ruv_0.9.6            assertthat_0.2.0     rmarkdown_1.6       
+#> [46] R6_2.2.2
 ```
 
 As you can see above, I've only tried this on Linux.

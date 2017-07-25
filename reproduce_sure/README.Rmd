@@ -23,7 +23,10 @@ This folder contains the code necessary to reproduce the results of @gerard2015a
 # Download the appropriate R packages.
 You can obtain all of the needed R packages by running the following code in R:
 ```{r, eval = FALSE}
-install.packages(c("tensr", "dplyr", "ggplot2", "tidyr", "xtable", "devtools", "snow"))
+install.packages(c("tensr", "dplyr", "ggplot2", "tidyr", "xtable", 
+                   "devtools", "snow", "cate", "ggthemes"))
+source("https://bioconductor.org/biocLite.R")
+biocLite("sva")
 devtools::install_github("dcgerard/hose")
 ```
 
@@ -70,6 +73,9 @@ library(ggplot2)
 library(tidyr)
 library(xtable)
 library(snow)
+library(sva)
+library(cate)
+library(ggthemes)
 ```
 
 ```{r}
