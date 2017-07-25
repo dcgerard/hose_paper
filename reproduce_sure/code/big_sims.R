@@ -136,7 +136,7 @@ write.table(file = "./output/generated_thetas/theta_trunc.txt",
             tensr::mat(theta, 1), col.names = FALSE, row.names = FALSE)
 
 seed_vec <- 1:sim_max
-cl <- makeCluster(detectCores() - 2)
+cl <- makeCluster(detectCores() - 1)
 sout <- t(snow::parSapply(cl = cl, seed_vec, FUN = one_rep, theta = theta))
 stopCluster(cl)
 
@@ -166,7 +166,7 @@ write.table(file = "./output/generated_thetas/theta_soft.txt",
 ##sqrt(diag(mat(S.temp,3) %*% t(mat(S.temp,3))))
 
 seed_vec <- 1:sim_max
-cl <- makeCluster(detectCores() - 2)
+cl <- makeCluster(detectCores() - 1)
 sout <- t(snow::parSapply(cl = cl, seed_vec, FUN = one_rep, theta = theta))
 stopCluster(cl)
 
@@ -189,7 +189,7 @@ write.table(file = "./output/generated_thetas/theta_candes.txt",
             tensr::mat(theta, 1), col.names = FALSE, row.names = FALSE)
 
 seed_vec <- 1:sim_max
-cl <- makeCluster(detectCores() - 2)
+cl <- makeCluster(detectCores() - 1)
 sout <- t(snow::parSapply(cl = cl, seed_vec, FUN = one_rep, theta = theta))
 stopCluster(cl)
 
@@ -210,7 +210,7 @@ write.table(file = "./output/generated_thetas/theta_stein.txt",
             tensr::mat(theta, 1), col.names = FALSE, row.names = FALSE)
 
 seed_vec <- 1:sim_max
-cl <- makeCluster(detectCores() - 2)
+cl <- makeCluster(detectCores() - 1)
 sout <- t(snow::parSapply(cl = cl, seed_vec, FUN = one_rep, theta = theta))
 stopCluster(cl)
 
@@ -233,7 +233,7 @@ write.table(file = "./output/generated_thetas/theta_candes2.txt",
             tensr::mat(theta, 1), col.names = FALSE, row.names = FALSE)
 
 seed_vec <- 1:sim_max
-cl <- makeCluster(detectCores() - 2)
+cl <- makeCluster(detectCores() - 1)
 sout <- t(snow::parSapply(cl = cl, seed_vec, FUN = one_rep, theta = theta))
 stopCluster(cl)
 
@@ -259,7 +259,7 @@ write.table(file = "./output/generated_thetas/theta_em.txt",
             tensr::mat(theta, 1), col.names = FALSE, row.names = FALSE)
 
 seed_vec <- 1:sim_max
-cl <- makeCluster(detectCores() - 2)
+cl <- makeCluster(detectCores() - 1)
 sout <- t(snow::parSapply(cl = cl, seed_vec, FUN = one_rep, theta = theta))
 stopCluster(cl)
 
