@@ -24,7 +24,8 @@ This folder contains the code necessary to reproduce the results of @gerard2015a
 You can obtain all of the needed R packages by running the following code in R:
 ```{r, eval = FALSE}
 install.packages(c("dplyr", "ggplot2", "tidyr", "xtable", 
-                   "devtools", "snow", "cate", "ggthemes"))
+                   "devtools", "snow", "cate", "ggthemes",
+                   "stringr"))
 source("https://bioconductor.org/biocLite.R")
 biocLite("sva")
 devtools::install_github("dcgerard/tensr")
@@ -77,6 +78,7 @@ library(snow)
 library(sva)
 library(cate)
 library(ggthemes)
+library(stringr)
 ```
 
 ```{r}
